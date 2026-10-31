@@ -1,41 +1,11 @@
-const SEARCH_ENGINES = {
-    duckduckgo: {
-        name: 'DuckDuckGo',
-        url: 'https://duckduckgo.com/?q=%s'
-    },
-    startpage: {
-        name: 'Startpage',
-        url: 'https://www.startpage.com/sp/search?query=%s'
-    },
-    brave: {
-        name: 'Brave Search',
-        url: 'https://search.brave.com/search?q=%s'
-    },
-    qwant: {
-        name: 'Qwant',
-        url: 'https://www.qwant.com/?q=%s'
-    }
-};
-
 const STORAGE_KEYS = {
     ENGINE: 'newtab_engine',
     BACKGROUND: 'newtab_background'
 };
 
-// Baza cytatów o prywatności
-const PRIVACY_QUOTES = [
-    "Prywatność to nie sekret. To kontrola nad tym, co chcesz udostępnić.",
-    "Nie jesteś produktem.",
-    "Brak logów to brak historii.",
-    "Twoje dane należą do Ciebie.",
-    "W sieci, jak w życiu: nie zostawiaj śladów, jeśli nie musisz.",
-    "Prywatność to nie ukrywanie czegoś, to wolność od nadzoru.",
-    "Zaufanie jest dobre, ale weryfikacja jest lepsza.",
-    "Najbezpieczniejszy komputer to ten wyłączony, ale z niego nie skorzystasz."
-];
-
 const clockEl = document.getElementById('clock');
 const dateEl = document.getElementById('date');
+const holidayBadgeEl = document.getElementById('holiday-badge');
 const greetingEl = document.getElementById('greeting');
 const quoteEl = document.getElementById('privacy-quote');
 const searchForm = document.getElementById('search-form');
@@ -52,15 +22,27 @@ const bgReset = document.getElementById('bg-reset');
 function updateClock() {
     const now = new Date();
     
+    // Godzina
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     clockEl.textContent = `${hours}:${minutes}:${seconds}`;
 
+    // Data
     const options = { weekday: 'long', day: 'numeric', month: 'long' };
     const dateStr = now.toLocaleDateString('pl-PL', options);
     dateEl.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
+    // Sprawdzanie świąt
+    const monthDay = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    if (APP_DATA.holidays[monthDay]) {
+        holidayBadgeEl.textContent = APP_DATA.holidays[monthDay];
+        holidayBadgeEl.classList.remove('hidden');
+    } else {
+        holidayBadgeEl.classList.add('hidden');
+    }
+
+    // Powitanie
     const hour = now.getHours();
     let greeting = 'Dobry wieczór';
     if (hour >= 5 && hour < 18) {
@@ -74,10 +56,11 @@ updateClock();
 
 // Inicjalizacja losowego cytatu
 function setRandomQuote() {
-    const randomIndex = Math.floor(Math.random() * PRIVACY_QUOTES.length);
-    quoteEl.textContent = PRIVACY_QUOTES[randomIndex];
+    const quotes = APP_DATA.privacyQuotes;
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    quoteEl.textContent = quotes[randomIndex];
 }
-setRandomQuote(); // Uruchamia się raz przy załadowaniu strony
+setRandomQuote();
 
 function getSelectedEngine() {
     return localStorage.getItem(STORAGE_KEYS.ENGINE) || 'duckduckgo';
@@ -92,7 +75,7 @@ function setSelectedEngine(engineKey) {
 function performSearch(query) {
     if (!query.trim()) return;
     const engineKey = getSelectedEngine();
-    const engine = SEARCH_ENGINES[engineKey] || SEARCH_ENGINES.duckduckgo;
+    const engine = APP_DATA.searchEngines[engineKey] || APP_DATA.searchEngines.duckduckgo;
     const url = engine.url.replace('%s', encodeURIComponent(query.trim()));
     window.location.href = url;
 }
