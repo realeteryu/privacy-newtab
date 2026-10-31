@@ -41,12 +41,20 @@ function updateClock() {
         dateEl.textContent = dateStr;
     }
 
-    // Powitanie
+    // Zaawansowane powitanie
     const hour = now.getHours();
-    let greeting = 'Dobry wieczór';
-    if (hour >= 5 && hour < 18) {
+    let greeting;
+
+    if (hour >= 5 && hour < 12) {
         greeting = 'Dzień dobry';
+    } else if (hour >= 12 && hour < 18) {
+        greeting = 'Miłego dnia';
+    } else if (hour >= 18 && hour < 23) {
+        greeting = 'Dobry wieczór';
+    } else {
+        greeting = 'Dobranoc';
     }
+    
     greetingEl.textContent = greeting;
 }
 
