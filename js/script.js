@@ -22,9 +22,22 @@ const STORAGE_KEYS = {
     BACKGROUND: 'newtab_background'
 };
 
+// Baza cytatów o prywatności
+const PRIVACY_QUOTES = [
+    "Prywatność to nie sekret. To kontrola nad tym, co chcesz udostępnić.",
+    "Nie jesteś produktem.",
+    "Brak logów to brak historii.",
+    "Twoje dane należą do Ciebie.",
+    "W sieci, jak w życiu: nie zostawiaj śladów, jeśli nie musisz.",
+    "Prywatność to nie ukrywanie czegoś, to wolność od nadzoru.",
+    "Zaufanie jest dobre, ale weryfikacja jest lepsza.",
+    "Najbezpieczniejszy komputer to ten wyłączony, ale z niego nie skorzystasz."
+];
+
 const clockEl = document.getElementById('clock');
 const dateEl = document.getElementById('date');
 const greetingEl = document.getElementById('greeting');
+const quoteEl = document.getElementById('privacy-quote');
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
 const engineSelect = document.getElementById('engine-select');
@@ -39,18 +52,15 @@ const bgReset = document.getElementById('bg-reset');
 function updateClock() {
     const now = new Date();
     
-    // Godzina
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     clockEl.textContent = `${hours}:${minutes}:${seconds}`;
 
-    // Data
     const options = { weekday: 'long', day: 'numeric', month: 'long' };
     const dateStr = now.toLocaleDateString('pl-PL', options);
     dateEl.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
-    // Powitanie
     const hour = now.getHours();
     let greeting = 'Dobry wieczór';
     if (hour >= 5 && hour < 18) {
@@ -61,6 +71,13 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 updateClock();
+
+// Inicjalizacja losowego cytatu
+function setRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * PRIVACY_QUOTES.length);
+    quoteEl.textContent = PRIVACY_QUOTES[randomIndex];
+}
+setRandomQuote(); // Uruchamia się raz przy załadowaniu strony
 
 function getSelectedEngine() {
     return localStorage.getItem(STORAGE_KEYS.ENGINE) || 'duckduckgo';
