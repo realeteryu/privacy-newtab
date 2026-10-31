@@ -83,6 +83,7 @@
         </button>
     </footer>
 
+    <!-- Modal ustawień -->
     <div id="settings-modal" class="modal hidden">
         <div class="modal-content">
             <h2>Ustawienia</h2>
@@ -108,8 +109,32 @@
         </div>
     </div>
 
+    <!-- Nowy modal: dodawanie skrótu -->
+    <div id="shortcut-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Dodaj skrót</h2>
+            
+            <div class="setting-group">
+                <label for="shortcut-name">Nazwa skrótu</label>
+                <input type="text" id="shortcut-name" placeholder="np. GitHub">
+            </div>
+
+            <div class="setting-group">
+                <label for="shortcut-url">Adres URL</label>
+                <input type="text" id="shortcut-url" placeholder="np. https://github.com">
+            </div>
+
+            <div class="setting-group">
+                <label for="shortcut-icon-upload">Własna ikona (opcjonalnie)</label>
+                <input type="file" id="shortcut-icon-upload" accept="image/*">
+            </div>
+
+            <button id="save-shortcut-btn" class="btn-primary">Dodaj</button>
+            <button id="cancel-shortcut-btn" class="btn-secondary">Anuluj</button>
+        </div>
+    </div>
+
     <script src="js/data.js"></script>
-    <!-- db.js musi być załadowany przed script.js -->
     <script src="js/db.js"></script>
     <script src="js/script.js"></script>
 </body>
