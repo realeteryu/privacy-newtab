@@ -16,7 +16,7 @@ Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. S
 
 <div align="center">
   <img src="assets/screenshots/screen-default.webp" width="30%" alt="Domyślny widok" style="border-radius: 12px; margin: 5px;">
-  <img src="assets/screenshots/screen-bg.webp" width="30%" alt="Widok z własnym tłem" style="border-radius: 12px; margin: 5px;">
+  <img src="assets/screenshots/screen-custom-bg.webp" width="30%" alt="Widok z własnym tłem" style="border-radius: 12px; margin: 5px;">
   <img src="assets/screenshots/screen-settings.webp" width="30%" alt="Panel ustawień" style="border-radius: 12px; margin: 5px;">
 </div>
 
