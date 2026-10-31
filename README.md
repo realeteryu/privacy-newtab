@@ -27,7 +27,7 @@ Projekt jest w 100% statyczny. Aby go uruchomić lokalnie:
 
 1. Sklonuj repozytorium:
    ```bash
-   git clone https://github.com/twoj-username/privacy-newtab.git
+   git clone https://github.com/realeteryu/privacy-newtab.git
    ```
 2. Otwórz plik `index.html` w przeglądarce.
 
@@ -36,7 +36,7 @@ Projekt jest w 100% statyczny. Aby go uruchomić lokalnie:
 1. Wypchnij kod do repozytorium na GitHubie.
 2. Przejdź do **Settings → Pages**.
 3. W sekcji **Source** wybierz gałąź `main` (lub `master`) i folder `/ (root)`.
-4. Zapisz. Strona będzie dostępna pod adresem `https://twoj-username.github.io/privacy-newtab/`.
+4. Zapisz. Strona będzie dostępna pod adresem `https://realeteryu.github.io/privacy-newtab/`.
 
 ## 🛠️ Technologie
 
