@@ -233,13 +233,13 @@ async function saveShortcuts(shortcuts) {
     }
 }
 
-async function addShortcut(name, url, iconBlob = null) {
+async function addShortcut(name, url) {
     const shortcuts = await getShortcuts();
     if (shortcuts.some(s => s.url === url)) {
         alert('Ten skrót już istnieje!');
         return false;
     }
-    shortcuts.push({ name, url, iconBlob });
+    shortcuts.push({ name, url }); // Nie zapisujemy już obrazka (blob) w bazie
     await saveShortcuts(shortcuts);
     await renderShortcuts();
     return true;
@@ -250,35 +250,6 @@ async function removeShortcut(url) {
     shortcuts = shortcuts.filter(s => s.url !== url);
     await saveShortcuts(shortcuts);
     await renderShortcuts();
-}
-
-// próba pobrania faviconu bezpośrednio z witryny (bez zewnętrznych api)
-async function fetchFaviconFromUrl(url) {
-    try {
-        const domain = new URL(url).hostname;
-        // próbujemy kilka popularnych ścieżek
-        const paths = [
-            `https://${domain}/favicon.ico`,
-            `https://${domain}/apple-touch-icon.png`
-        ];
-        
-        for (const path of paths) {
-            try {
-                const response = await fetch(path, { mode: 'cors' });
-                if (response.ok) {
-                    const blob = await response.blob();
-                    if (blob.type.startsWith('image/')) {
-                        return blob;
-                    }
-                }
-            } catch (e) {
-                // ignorujemy błąd cors i próbujemy następną ścieżkę
-            }
-        }
-        return null;
-    } catch (error) {
-        return null;
-    }
 }
 
 async function renderShortcuts() {
@@ -296,14 +267,24 @@ async function renderShortcuts() {
         const iconDiv = document.createElement('div');
         iconDiv.className = 'shortcut-icon';
 
-        if (shortcut.iconBlob) {
-            const iconUrl = URL.createObjectURL(shortcut.iconBlob);
+        // Próbujemy załadować ikonę bezpośrednio z serwera docelowego
+        try {
+            const domain = new URL(shortcut.url).hostname;
+            const faviconUrl = `https://${domain}/favicon.ico`;
+            
             const img = document.createElement('img');
-            img.src = iconUrl;
+            img.src = faviconUrl;
             img.alt = shortcut.name;
-            img.onload = () => URL.revokeObjectURL(iconUrl);
+            
+            // Jeśli obrazek nie istnieje (404) lub jest zablokowany, wyświetlamy literę
+            img.onerror = () => {
+                iconDiv.innerHTML = ''; 
+                iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
+            };
+            
             iconDiv.appendChild(img);
-        } else {
+        } catch (e) {
+            // Fallback w razie błędnego URL
             iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
         }
 
@@ -342,17 +323,7 @@ addShortcutBtn.addEventListener('click', async () => {
         name = new URL(url).hostname.replace('www.', '');
     }
 
-    // informacja zwrotna dla użytkownika, że coś się dzieje
-    addShortcutBtn.style.opacity = '0.5';
-    
-    const iconBlob = await fetchFaviconFromUrl(url);
-    const success = await addShortcut(name, url, iconBlob);
-    
-    addShortcutBtn.style.opacity = '1';
-
-    if (!success) {
-        // jeśli skrót już istniał, komunikat został już wyświetlony w addShortcut
-    }
+    await addShortcut(name, url);
 });
 
 // --- koniec logiki kafelków ---
