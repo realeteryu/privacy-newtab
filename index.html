@@ -14,9 +14,10 @@
         <section class="clock-section">
             <div id="clock" class="clock">00:00:00</div>
             <div id="date" class="date">Poniedziałek, 1 stycznia</div>
+            <!-- Nowy element na święta -->
+            <div id="holiday-badge" class="holiday-badge hidden"></div>
         </section>
 
-        <!-- Powitanie i nowy cytat -->
         <div class="greeting-container">
             <h1 id="greeting" class="greeting">Dzień dobry</h1>
             <div id="privacy-quote" class="privacy-quote"></div>
@@ -83,6 +84,8 @@
         </div>
     </div>
 
+    <!-- Ładowanie danych przed logiką -->
+    <script src="js/data.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
