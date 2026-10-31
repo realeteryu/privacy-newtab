@@ -380,6 +380,22 @@ body {
     font-size: 0.9rem;
 }
 
+/* style dla inputów tekstowych (nowy modal) */
+.setting-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--search-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color var(--transition);
+}
+
+.setting-group input[type="text"]:focus {
+    border-color: var(--accent);
+}
+
 .setting-group input[type="file"] {
     width: 100%;
     padding: 10px;
@@ -421,6 +437,11 @@ body {
     background: transparent;
     border: 1px solid var(--search-border);
     color: var(--text-secondary);
+}
+
+/* dodatkowy odstęp dla drugiego przycisku w modalu */
+.modal .btn-secondary {
+    margin-top: 10px;
 }
 
 .btn-primary:hover, .btn-secondary:hover {
