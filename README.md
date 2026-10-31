@@ -21,7 +21,7 @@ Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. S
 
 ## ✨ Funkcje (MVP)
 
-- **Ciemne, minimalistyczne tło** – możliwość ustawienia własnego obrazu z dysku (przechowywanego w `localStorage`).
+- **Ciemne, minimalistyczne tło** – możliwość ustawienia własnego obrazu z dysku (automatyczna optymalizacja do WebP i zapis lokalny w IndexedDB).
 - **Duży, wyraźny zegar i data** – z automatycznym wskaźnikiem popularnych świąt.
 - **Pasek wyszukiwania** – umieszczony centralnie, pod zegarem.
 - **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami.
@@ -41,29 +41,31 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 ## 🛠️ Technologie
 
 - Czysty HTML5
-- CSS3 (zmienne, flexbox, animacje)
-- Vanilla JavaScript (ES6+)
-- `localStorage` do zapisywania ustawień
+- CSS3 (zmienne, flexbox, animacje, glassmorphism)
+- Vanilla JavaScript (ES6+, Canvas API, IndexedDB)
+- `IndexedDB` (bezpieczne i pojemne przechowywanie tła)
+- `localStorage` (przechowywanie preferencji wyszukiwarki)
 
 ## 📁 Struktura plików
 
 ```text
 /
 ├── assets/
-│   ├── icon-512.png          # Główna ikona (PWA)
-│   ├── favicon.ico           # Ikona dla przeglądarek
-│   ├── favicon.svg           # Wektorowa ikona dla nowoczesnych przeglądarek
-│   ├── favicon-96x96.png     # Ikona PNG
-│   └── apple-touch-icon.png  # Ikona dla urządzeń Apple
+│   ├── icon-512.png          # główna ikona (pwa)
+│   ├── favicon.ico           # ikona dla przeglądarek
+│   ├── favicon.svg           # wektorowa ikona dla nowoczesnych przeglądarek
+│   ├── favicon-96x96.png     # ikona png
+│   └── apple-touch-icon.png  # ikona dla urządzeń apple
 ├── css/
-│   └── style.css             # Arkusz stylów
+│   └── style.css             # arkusz stylów
 ├── js/
-│   ├── data.js               # Statyczne dane (wyszukiwarki, cytaty, święta)
-│   └── script.js             # Logika aplikacji
-├── index.html                # Główny plik HTML
-├── manifest.json             # Konfiguracja PWA
-├── README.md                 # Ten plik
-└── LICENSE                   # Licencja MIT
+│   ├── data.js               # statyczne dane (wyszukiwarki, cytaty, święta)
+│   ├── db.js                 # obsługa bazy IndexedDB (przechowywanie tła)
+│   └── script.js             # główna logika aplikacji
+├── index.html                # główny plik HTML
+├── manifest.json             # konfiguracja PWA
+├── README.md                 # ten plik
+└── LICENSE                   # licencja MIT
 ```
 
 ## 📄 Licencja
