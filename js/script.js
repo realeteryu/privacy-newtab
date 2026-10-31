@@ -19,6 +19,14 @@ const bgReset = document.getElementById('bg-reset');
 const shortcutsGrid = document.getElementById('shortcuts-grid');
 const addShortcutBtn = document.getElementById('add-shortcut-btn');
 
+// elementy nowego modala skrótów
+const shortcutModal = document.getElementById('shortcut-modal');
+const shortcutNameInput = document.getElementById('shortcut-name');
+const shortcutUrlInput = document.getElementById('shortcut-url');
+const shortcutIconUpload = document.getElementById('shortcut-icon-upload');
+const saveShortcutBtn = document.getElementById('save-shortcut-btn');
+const cancelShortcutBtn = document.getElementById('cancel-shortcut-btn');
+
 // zmienna do przechowywania obecnego url tła (aby móc go zwolnić z pamięci)
 let currentBgObjectUrl = null;
 
@@ -163,7 +171,7 @@ async function processAndSetBackground(file) {
             }
         }
 
-        // 3. rysowanie na canvasie (używamy offscreencanvas jeśli jest dostępny)
+        // 3. rysowanie na canvasie
         const canvas = (typeof OffscreenCanvas !== 'undefined') 
             ? new OffscreenCanvas(width, height) 
             : document.createElement('canvas');
@@ -233,13 +241,14 @@ async function saveShortcuts(shortcuts) {
     }
 }
 
-async function addShortcut(name, url) {
+async function addShortcut(name, url, customIconBlob = null) {
     const shortcuts = await getShortcuts();
     if (shortcuts.some(s => s.url === url)) {
         alert('Ten skrót już istnieje!');
         return false;
     }
-    shortcuts.push({ name, url }); // Nie zapisujemy już obrazka (blob) w bazie
+    // zapisujemy obiekt ze skrótem, opcjonalnie z własną ikoną (blob)
+    shortcuts.push({ name, url, iconBlob: customIconBlob });
     await saveShortcuts(shortcuts);
     await renderShortcuts();
     return true;
@@ -267,25 +276,34 @@ async function renderShortcuts() {
         const iconDiv = document.createElement('div');
         iconDiv.className = 'shortcut-icon';
 
-        // Próbujemy załadować ikonę bezpośrednio z serwera docelowego
-        try {
-            const domain = new URL(shortcut.url).hostname;
-            const faviconUrl = `https://${domain}/favicon.ico`;
-            
+        // jeśli użytkownik wgrał własną ikonę, używamy jej z bazy danych
+        if (shortcut.iconBlob) {
+            const iconUrl = URL.createObjectURL(shortcut.iconBlob);
             const img = document.createElement('img');
-            img.src = faviconUrl;
+            img.src = iconUrl;
             img.alt = shortcut.name;
-            
-            // Jeśli obrazek nie istnieje (404) lub jest zablokowany, wyświetlamy literę
-            img.onerror = () => {
-                iconDiv.innerHTML = ''; 
-                iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
-            };
-            
+            img.onload = () => URL.revokeObjectURL(iconUrl);
             iconDiv.appendChild(img);
-        } catch (e) {
-            // Fallback w razie błędnego URL
-            iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
+        } else {
+            // w przeciwnym razie próbujemy pobrać favicon z serwera docelowego
+            try {
+                const domain = new URL(shortcut.url).hostname;
+                const faviconUrl = `https://${domain}/favicon.ico`;
+                
+                const img = document.createElement('img');
+                img.src = faviconUrl;
+                img.alt = shortcut.name;
+                
+                // jeśli obrazek nie istnieje (404) lub jest zablokowany, wyświetlamy literę
+                img.onerror = () => {
+                    iconDiv.innerHTML = ''; 
+                    iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
+                };
+                
+                iconDiv.appendChild(img);
+            } catch (e) {
+                iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
+            }
         }
 
         const label = document.createElement('span');
@@ -307,9 +325,35 @@ async function renderShortcuts() {
     }
 }
 
-addShortcutBtn.addEventListener('click', async () => {
-    const url = prompt('Podaj adres URL strony (np. https://github.com):');
-    if (!url) return;
+// otwieranie modala dodawania skrótu
+addShortcutBtn.addEventListener('click', () => {
+    shortcutNameInput.value = '';
+    shortcutUrlInput.value = '';
+    shortcutIconUpload.value = '';
+    shortcutModal.classList.remove('hidden');
+    shortcutNameInput.focus();
+});
+
+// zamykanie modala
+function closeShortcutModal() {
+    shortcutModal.classList.add('hidden');
+}
+
+cancelShortcutBtn.addEventListener('click', closeShortcutModal);
+shortcutModal.addEventListener('click', (e) => {
+    if (e.target === shortcutModal) closeShortcutModal();
+});
+
+// zapis nowego skrótu z modala
+saveShortcutBtn.addEventListener('click', async () => {
+    const url = shortcutUrlInput.value.trim();
+    let name = shortcutNameInput.value.trim();
+    const iconFile = shortcutIconUpload.files[0];
+
+    if (!url) {
+        alert('Podaj adres URL.');
+        return;
+    }
 
     try {
         new URL(url);
@@ -318,12 +362,48 @@ addShortcutBtn.addEventListener('click', async () => {
         return;
     }
 
-    let name = prompt('Podaj nazwę skrótu (np. GitHub):');
     if (!name) {
         name = new URL(url).hostname.replace('www.', '');
     }
 
-    await addShortcut(name, url);
+    // blokada przycisku na czas przetwarzania
+    saveShortcutBtn.textContent = 'Zapisywanie...';
+    saveShortcutBtn.disabled = true;
+
+    let iconBlob = null;
+
+    // jeśli użytkownik wgrał własną ikonę, przetwarzamy ją (zmniejszamy do 128x128)
+    if (iconFile) {
+        try {
+            const bitmap = await createImageBitmap(iconFile);
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            
+            // rysujemy wyśrodkowane i przeskalowane
+            const scale = Math.min(128 / bitmap.width, 128 / bitmap.height);
+            const x = (128 / 2) - (bitmap.width / 2) * scale;
+            const y = (128 / 2) - (bitmap.height / 2) * scale;
+            
+            ctx.drawImage(bitmap, x, y, bitmap.width * scale, bitmap.height * scale);
+            
+            iconBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/webp', 0.8));
+            bitmap.close();
+        } catch (err) {
+            console.error('Błąd podczas przetwarzania własnej ikony:', err);
+        }
+    }
+
+    const success = await addShortcut(name, url, iconBlob);
+
+    // przywrócenie przycisku
+    saveShortcutBtn.textContent = 'Dodaj';
+    saveShortcutBtn.disabled = false;
+    
+    if (success) {
+        closeShortcutModal();
+    }
 });
 
 // --- koniec logiki kafelków ---
@@ -348,5 +428,8 @@ settingsModal.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !settingsModal.classList.contains('hidden')) {
         closeSettings();
+    }
+    if (e.key === 'Escape' && !shortcutModal.classList.contains('hidden')) {
+        closeShortcutModal();
     }
 });
