@@ -21,23 +21,6 @@ Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. S
 - **Responsywność** – działa zarówno na desktopie, jak i na urządzeniach mobilnych.
 - **Delikatne animacje** – płynne pojawianie się elementów.
 
-## 🚀 Instalacja i uruchomienie
-
-Projekt jest w 100% statyczny. Aby go uruchomić lokalnie:
-
-1. Sklonuj repozytorium:
-   ```bash
-   git clone https://github.com/realeteryu/privacy-newtab.git
-   ```
-2. Otwórz plik `index.html` w przeglądarce.
-
-### Wdrożenie na GitHub Pages
-
-1. Wypchnij kod do repozytorium na GitHubie.
-2. Przejdź do **Settings → Pages**.
-3. W sekcji **Source** wybierz gałąź `main` (lub `master`) i folder `/ (root)`.
-4. Zapisz. Strona będzie dostępna pod adresem `https://realeteryu.github.io/privacy-newtab/`.
-
 ## 🛠️ Technologie
 
 - Czysty HTML5
