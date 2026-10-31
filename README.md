@@ -7,21 +7,21 @@
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-f50056.svg)](https://opensource.org/licenses/MIT)
   [![Live Demo](https://img.shields.io/badge/Demo-newtab.eteryu.space-f50056)](https://newtab.eteryu.space)
-
 </div>
 
 Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. Strona startowa inspirowana stylem wizualnym przeglądarki **RedApp** oraz funkcjonalnością **Hostux.page**.
 
 ## 🛡️ Filozofia "Distrust"
 
+Projekt opiera się na zasadzie świadomego braku zaufania do domyślnych rozwiązań big tech:
 - **Zero logów** – żadne dane nie są wysyłane na serwer.
 - **Zero analityki** – brak jakichkolwiek skryptów śledzących.
-- **Zero backendu** – wszystko działa lokalnie w przeglądarce.
+- **Zero backendu** – wszystko działa lokalnie w przeglądarce (Local-first).
 - **Zero zewnętrznych zależności** – brak frameworków CSS/JS, zewnętrznych czcionek czy bibliotek.
 
-## ✨ Funkcje (MVP)
+## ✨ Funkcje
 
-- **Ciemne, minimalistyczne tło** – możliwość ustawienia własnego obrazu z dysku (automatyczna optymalizacja do WebP i zapis lokalny w IndexedDB).
+- **Ciemne, minimalistyczne tło** – możliwość ustawienia własnego obrazu z dysku (z automatyczną optymalizacją do WebP i zapisem w IndexedDB).
 - **Duży, wyraźny zegar i data** – z automatycznym wskaźnikiem popularnych świąt.
 - **Pasek wyszukiwania** – umieszczony centralnie, pod zegarem.
 - **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami.
@@ -46,6 +46,13 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 - Vanilla JavaScript (ES6+, Canvas API, IndexedDB)
 - `IndexedDB` (bezpieczne i pojemne przechowywanie tła i skrótów)
 - `localStorage` (przechowywanie preferencji wyszukiwarki)
+
+## 🗺️ Roadmap (Plany na przyszłość)
+
+- [x] Dodanie kafelków ze skrótami.
+- [x] Optymalizacja obrazów tła do WebP.
+- [ ] Możliwość eksportu i importu ustawień (tła, skróty) do pliku JSON.
+- [ ] Stworzenie dedykowanego rozszerzenia do przeglądarki (wtyczki) ułatwiającego podmianę nowej karty.
 
 ## 📁 Struktura plików
 
