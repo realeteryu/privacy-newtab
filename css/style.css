@@ -2,7 +2,6 @@
     --bg-color: #0d1117;
     --text-primary: #ffffff;
     --text-secondary: #a0a0a0;
-    /* Zmieniono na róż Zensical / Eteryu */
     --accent: #f50056;
     --search-bg: rgba(255, 255, 255, 0.1);
     --search-border: rgba(255, 255, 255, 0.2);
@@ -22,7 +21,6 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    /* Zmieniono na flex-start, aby elementy były u góry */
     justify-content: flex-start;
     align-items: center;
     overflow: hidden;
@@ -49,7 +47,6 @@ body {
     padding: 20px;
     width: 100%;
     max-width: 700px;
-    /* PODNIESIENIE CAŁOŚCI DO GÓRY */
     margin-top: 15vh; 
     animation: fadeIn 0.8s ease-out;
 }
@@ -77,13 +74,12 @@ body {
     font-weight: 300;
 }
 
-/* Stylizacja powitania i cytatu */
 .greeting-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 25px;
-    min-height: 60px; /* Rezerwacja miejsca, aby skróty nie skakały przy zmianie cytatu */
+    min-height: 60px;
 }
 
 .greeting {
@@ -122,7 +118,6 @@ body {
     transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-/* Zaktualizowana poświata dla różu */
 .search-wrapper:focus-within {
     border-color: var(--accent);
     box-shadow: 0 0 15px rgba(245, 0, 86, 0.4);
@@ -294,7 +289,6 @@ body {
 
 .btn-primary {
     background: var(--accent);
-    /* Zmiana koloru tekstu na biały dla lepszego kontrastu na różowym tle */
     color: #ffffff;
 }
 
@@ -310,7 +304,7 @@ body {
 
 @media (max-width: 500px) {
     .container {
-        margin-top: 10vh; /* Na małych ekranach podnosimy trochę mniej, by nie nachodziło na belkę przeglądarki */
+        margin-top: 10vh;
     }
     .search-wrapper {
         flex-direction: column;
@@ -332,4 +326,4 @@ body {
         bottom: 10px;
         right: 10px;
     }
-                     }
+    }
