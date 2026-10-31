@@ -14,12 +14,21 @@ Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. S
 ## ✨ Funkcje (MVP)
 
 - **Ciemne, minimalistyczne tło** – możliwość ustawienia własnego obrazu z dysku (przechowywanego w `localStorage`).
-- **Duży, wyraźny zegar i data** – aktualizowany co sekundę.
+- **Duży, wyraźny zegar i data** – z automatycznym wskaźnikiem popularnych świąt.
 - **Pasek wyszukiwania** – umieszczony centralnie, pod zegarem.
-- **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami (DuckDuckGo, Startpage, Brave Search, Qwant). Domyślnie ustawiona jest prywatna wyszukiwarka.
-- **Powitanie** – dynamiczny tekst w zależności od godziny (np. "Dzień dobry").
+- **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami. Domyślnie ustawiona jest prywatna wyszukiwarka.
+- **Powitanie i cytaty** – dynamiczny tekst powitalny oraz losowy cytat o prywatności.
 - **Responsywność** – działa zarówno na desktopie, jak i na urządzeniach mobilnych.
 - **Delikatne animacje** – płynne pojawianie się elementów.
+
+## 🔍 Wspierane wyszukiwarki
+
+Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
+- DuckDuckGo
+- Startpage
+- Brave Search
+- Qwant
+- **SearXNG (lab042)** – serdeczne podziękowania dla [@michal@101010.pl](https://101010.pl/@michal) za udostępnienie instancji!
 
 ## 🛠️ Technologie
 
@@ -36,6 +45,7 @@ Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. S
 ├── css/
 │   └── style.css   # Arkusz stylów
 ├── js/
+│   ├── data.js     # Statyczne dane (wyszukiwarki, cytaty, święta)
 │   └── script.js   # Logika aplikacji
 ├── index.html      # Główny plik HTML
 ├── README.md       # Ten plik
