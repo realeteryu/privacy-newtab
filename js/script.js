@@ -5,7 +5,6 @@ const STORAGE_KEYS = {
 
 const clockEl = document.getElementById('clock');
 const dateEl = document.getElementById('date');
-const holidayBadgeEl = document.getElementById('holiday-badge');
 const greetingEl = document.getElementById('greeting');
 const quoteEl = document.getElementById('privacy-quote');
 const searchForm = document.getElementById('search-form');
@@ -28,18 +27,18 @@ function updateClock() {
     const seconds = String(now.getSeconds()).padStart(2, '0');
     clockEl.textContent = `${hours}:${minutes}:${seconds}`;
 
-    // Data
+    // Data i święta
     const options = { weekday: 'long', day: 'numeric', month: 'long' };
-    const dateStr = now.toLocaleDateString('pl-PL', options);
-    dateEl.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+    let dateStr = now.toLocaleDateString('pl-PL', options);
+    dateStr = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
-    // Sprawdzanie świąt
     const monthDay = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    
+    // Doklejanie święta do daty, jeśli istnieje w bazie
     if (APP_DATA.holidays[monthDay]) {
-        holidayBadgeEl.textContent = APP_DATA.holidays[monthDay];
-        holidayBadgeEl.classList.remove('hidden');
+        dateEl.textContent = `${dateStr} • ${APP_DATA.holidays[monthDay]}`;
     } else {
-        holidayBadgeEl.classList.add('hidden');
+        dateEl.textContent = dateStr;
     }
 
     // Powitanie
