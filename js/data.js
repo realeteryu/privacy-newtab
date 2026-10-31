@@ -19,6 +19,10 @@ const APP_DATA = {
         qwant: {
             name: 'Qwant',
             url: 'https://www.qwant.com/?q=%s'
+        },
+        searxng_lab042: {
+            name: 'SearXNG (lab042)',
+            url: 'https://search.lab042.it/search?q=%s'
         }
     },
     privacyQuotes: [
