@@ -16,13 +16,16 @@ const settingsModal = document.getElementById('settings-modal');
 const closeSettingsBtn = document.getElementById('close-settings');
 const bgUpload = document.getElementById('bg-upload');
 const bgReset = document.getElementById('bg-reset');
+const shortcutsGrid = document.getElementById('shortcuts-grid');
+const addShortcutBtn = document.getElementById('add-shortcut-btn');
 
 // zmienna do przechowywania obecnego url tła (aby móc go zwolnić z pamięci)
 let currentBgObjectUrl = null;
 
-// inicjalizacja bazy danych i ładowanie tła przy starcie
+// inicjalizacja bazy danych, ładowanie tła i kafelków przy starcie
 initDB().then(() => {
     loadBackground();
+    renderShortcuts();
 }).catch((err) => {
     console.error('Nie udało się zainicjalizować bazy danych:', err);
     backgroundEl.style.backgroundImage = 'linear-gradient(135deg, #0d1117 0%, #161b22 100%)';
@@ -210,7 +213,149 @@ bgReset.addEventListener('click', async () => {
     }
 });
 
-// --- koniec logiki tła ---
+// --- logika kafelków ze skrótami ---
+
+async function getShortcuts() {
+    try {
+        const shortcuts = await getFromDB('shortcuts');
+        return shortcuts || [];
+    } catch (err) {
+        console.error('Błąd podczas pobierania skrótów:', err);
+        return [];
+    }
+}
+
+async function saveShortcuts(shortcuts) {
+    try {
+        await saveToDB('shortcuts', shortcuts);
+    } catch (err) {
+        console.error('Błąd podczas zapisywania skrótów:', err);
+    }
+}
+
+async function addShortcut(name, url, iconBlob = null) {
+    const shortcuts = await getShortcuts();
+    if (shortcuts.some(s => s.url === url)) {
+        alert('Ten skrót już istnieje!');
+        return false;
+    }
+    shortcuts.push({ name, url, iconBlob });
+    await saveShortcuts(shortcuts);
+    await renderShortcuts();
+    return true;
+}
+
+async function removeShortcut(url) {
+    let shortcuts = await getShortcuts();
+    shortcuts = shortcuts.filter(s => s.url !== url);
+    await saveShortcuts(shortcuts);
+    await renderShortcuts();
+}
+
+// próba pobrania faviconu bezpośrednio z witryny (bez zewnętrznych api)
+async function fetchFaviconFromUrl(url) {
+    try {
+        const domain = new URL(url).hostname;
+        // próbujemy kilka popularnych ścieżek
+        const paths = [
+            `https://${domain}/favicon.ico`,
+            `https://${domain}/apple-touch-icon.png`
+        ];
+        
+        for (const path of paths) {
+            try {
+                const response = await fetch(path, { mode: 'cors' });
+                if (response.ok) {
+                    const blob = await response.blob();
+                    if (blob.type.startsWith('image/')) {
+                        return blob;
+                    }
+                }
+            } catch (e) {
+                // ignorujemy błąd cors i próbujemy następną ścieżkę
+            }
+        }
+        return null;
+    } catch (error) {
+        return null;
+    }
+}
+
+async function renderShortcuts() {
+    const shortcuts = await getShortcuts();
+    shortcutsGrid.innerHTML = ''; 
+
+    for (const shortcut of shortcuts) {
+        const item = document.createElement('a');
+        item.href = shortcut.url;
+        item.target = '_blank';
+        item.rel = 'noopener noreferrer';
+        item.className = 'shortcut-item';
+        item.title = shortcut.name;
+
+        const iconDiv = document.createElement('div');
+        iconDiv.className = 'shortcut-icon';
+
+        if (shortcut.iconBlob) {
+            const iconUrl = URL.createObjectURL(shortcut.iconBlob);
+            const img = document.createElement('img');
+            img.src = iconUrl;
+            img.alt = shortcut.name;
+            img.onload = () => URL.revokeObjectURL(iconUrl);
+            iconDiv.appendChild(img);
+        } else {
+            iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
+        }
+
+        const label = document.createElement('span');
+        label.className = 'shortcut-label';
+        label.textContent = shortcut.name;
+
+        item.appendChild(iconDiv);
+        item.appendChild(label);
+
+        // usuwanie skrótu (kliknięcie prawym / przytrzymanie na telefonie)
+        item.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            if (confirm(`Czy na pewno chcesz usunąć skrót "${shortcut.name}"?`)) {
+                removeShortcut(shortcut.url);
+            }
+        });
+
+        shortcutsGrid.appendChild(item);
+    }
+}
+
+addShortcutBtn.addEventListener('click', async () => {
+    const url = prompt('Podaj adres URL strony (np. https://github.com):');
+    if (!url) return;
+
+    try {
+        new URL(url);
+    } catch (e) {
+        alert('Podano nieprawidłowy adres URL. Upewnij się, że zaczyna się od http:// lub https://');
+        return;
+    }
+
+    let name = prompt('Podaj nazwę skrótu (np. GitHub):');
+    if (!name) {
+        name = new URL(url).hostname.replace('www.', '');
+    }
+
+    // informacja zwrotna dla użytkownika, że coś się dzieje
+    addShortcutBtn.style.opacity = '0.5';
+    
+    const iconBlob = await fetchFaviconFromUrl(url);
+    const success = await addShortcut(name, url, iconBlob);
+    
+    addShortcutBtn.style.opacity = '1';
+
+    if (!success) {
+        // jeśli skrót już istniał, komunikat został już wyświetlony w addShortcut
+    }
+});
+
+// --- koniec logiki kafelków ---
 
 function openSettings() {
     settingsModal.classList.remove('hidden');
