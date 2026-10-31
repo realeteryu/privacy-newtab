@@ -21,7 +21,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* Zmieniono na flex-start, aby elementy były u góry */
+    justify-content: flex-start;
     align-items: center;
     overflow: hidden;
     background-color: var(--bg-color);
@@ -47,6 +48,8 @@ body {
     padding: 20px;
     width: 100%;
     max-width: 700px;
+    /* PODNIESIENIE CAŁOŚCI DO GÓRY */
+    margin-top: 15vh; 
     animation: fadeIn 0.8s ease-out;
 }
 
@@ -56,7 +59,7 @@ body {
 }
 
 .clock-section {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .clock {
@@ -73,12 +76,29 @@ body {
     font-weight: 300;
 }
 
+/* Stylizacja powitania i cytatu */
+.greeting-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+    min-height: 60px; /* Rezerwacja miejsca, aby skróty nie skakały przy zmianie cytatu */
+}
+
 .greeting {
     font-size: clamp(1.2rem, 3vw, 1.5rem);
     font-weight: 400;
-    margin-bottom: 30px;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+    margin-bottom: 5px;
+}
+
+.privacy-quote {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
 }
 
 .search-section {
@@ -286,6 +306,9 @@ body {
 }
 
 @media (max-width: 500px) {
+    .container {
+        margin-top: 10vh; /* Na małych ekranach podnosimy trochę mniej, by nie nachodziło na belkę przeglądarki */
+    }
     .search-wrapper {
         flex-direction: column;
         border-radius: 16px;
@@ -306,4 +329,4 @@ body {
         bottom: 10px;
         right: 10px;
     }
-  }
+}
