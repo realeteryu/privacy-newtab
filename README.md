@@ -4,6 +4,8 @@
 
 Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. Strona startowa (New Tab) inspirowana stylem wizualnym przeglądarki **RedApp** oraz funkcjonalnością **Hostux.page**.
 
+🌐 **Oficjalna strona (Demo): [newtab.eteryu.space](https://newtab.eteryu.space)**
+
 ## 🛡️ Filozofia "Distrust"
 
 - **Zero logów** – żadne dane nie są wysyłane na serwer.
@@ -17,7 +19,7 @@ Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. S
 - **Duży, wyraźny zegar i data** – z automatycznym wskaźnikiem popularnych świąt.
 - **Pasek wyszukiwania** – umieszczony centralnie, pod zegarem.
 - **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami. Domyślnie ustawiona jest prywatna wyszukiwarka.
-- **Powitanie i cytaty** – dynamiczny tekst powitalny oraz losowy cytat o prywatności.
+- **Powitanie i cytaty** – dynamiczny tekst powitalny dostosowany do pory dnia oraz losowy cytat o prywatności.
 - **Responsywność** – działa zarówno na desktopie, jak i na urządzeniach mobilnych.
 - **Delikatne animacje** – płynne pojawianie się elementów.
 
