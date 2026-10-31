@@ -12,14 +12,6 @@
 
 Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. Strona startowa inspirowana stylem wizualnym przeglądarki **RedApp** oraz funkcjonalnością **Hostux.page**.
 
-## 📸 Zrzuty ekranu
-
-<div align="center">
-  <img src="assets/screenshots/screen-default.webp" width="30%" alt="Domyślny widok" style="border-radius: 12px; margin: 5px;">
-  <img src="assets/screenshots/screen-custom-bg.webp" width="30%" alt="Widok z własnym tłem" style="border-radius: 12px; margin: 5px;">
-  <img src="assets/screenshots/screen-settings.webp" width="30%" alt="Panel ustawień" style="border-radius: 12px; margin: 5px;">
-</div>
-
 ## 🛡️ Filozofia "Distrust"
 
 - **Zero logów** – żadne dane nie są wysyłane na serwer.
@@ -33,6 +25,7 @@ Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. S
 - **Duży, wyraźny zegar i data** – z automatycznym wskaźnikiem popularnych świąt.
 - **Pasek wyszukiwania** – umieszczony centralnie, pod zegarem.
 - **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami.
+- **Kafelki ze skrótami** – możliwość dodawania ulubionych stron z własnymi ikonami.
 - **Powitanie i cytaty** – dynamiczny tekst powitalny dostosowany do pory dnia oraz losowy cytat o prywatności.
 - **PWA Ready** – możliwość zainstalowania jako aplikacja/skrót na telefonie (dzięki manifestowi).
 - **Responsywność** – działa zarówno na desktopie, jak i na urządzeniach mobilnych.
@@ -51,7 +44,7 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 - Czysty HTML5
 - CSS3 (zmienne, flexbox, animacje, glassmorphism)
 - Vanilla JavaScript (ES6+, Canvas API, IndexedDB)
-- `IndexedDB` (bezpieczne i pojemne przechowywanie tła)
+- `IndexedDB` (bezpieczne i pojemne przechowywanie tła i skrótów)
 - `localStorage` (przechowywanie preferencji wyszukiwarki)
 
 ## 📁 Struktura plików
@@ -59,7 +52,6 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 ```text
 /
 ├── assets/
-│   ├── screenshots/          # zrzuty ekranu do readme
 │   ├── icon-512.png          # główna ikona (pwa)
 │   ├── favicon.ico           # ikona dla przeglądarek
 │   ├── favicon.svg           # wektorowa ikona dla nowoczesnych przeglądarek
@@ -69,7 +61,7 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 │   └── style.css             # arkusz stylów
 ├── js/
 │   ├── data.js               # statyczne dane (wyszukiwarki, cytaty, święta)
-│   ├── db.js                 # obsługa bazy IndexedDB (przechowywanie tła)
+│   ├── db.js                 # obsługa bazy IndexedDB (przechowywanie tła i skrótów)
 │   └── script.js             # główna logika aplikacji
 ├── index.html                # główny plik HTML
 ├── manifest.json             # konfiguracja PWA
