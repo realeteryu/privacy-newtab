@@ -1,6 +1,5 @@
 const STORAGE_KEYS = {
-    ENGINE: 'newtab_engine',
-    BACKGROUND: 'newtab_background'
+    ENGINE: 'newtab_engine'
 };
 
 const clockEl = document.getElementById('clock');
@@ -18,30 +17,41 @@ const closeSettingsBtn = document.getElementById('close-settings');
 const bgUpload = document.getElementById('bg-upload');
 const bgReset = document.getElementById('bg-reset');
 
+// zmienna do przechowywania obecnego url tła (aby móc go zwolnić z pamięci)
+let currentBgObjectUrl = null;
+
+// inicjalizacja bazy danych i ładowanie tła przy starcie
+initDB().then(() => {
+    loadBackground();
+}).catch((err) => {
+    console.error('Nie udało się zainicjalizować bazy danych:', err);
+    backgroundEl.style.backgroundImage = 'linear-gradient(135deg, #0d1117 0%, #161b22 100%)';
+});
+
 function updateClock() {
     const now = new Date();
     
-    // Godzina
+    // godzina
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     clockEl.textContent = `${hours}:${minutes}:${seconds}`;
 
-    // Data i święta
+    // data i święta
     const options = { weekday: 'long', day: 'numeric', month: 'long' };
     let dateStr = now.toLocaleDateString('pl-PL', options);
     dateStr = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
     const monthDay = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
     
-    // Doklejanie święta do daty, jeśli istnieje w bazie
+    // doklejanie święta do daty, jeśli istnieje w bazie
     if (APP_DATA.holidays[monthDay]) {
         dateEl.textContent = `${dateStr} • ${APP_DATA.holidays[monthDay]}`;
     } else {
         dateEl.textContent = dateStr;
     }
 
-    // Zaawansowane powitanie
+    // zaawansowane powitanie
     const hour = now.getHours();
     let greeting;
 
@@ -61,7 +71,7 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// Inicjalizacja losowego cytatu
+// inicjalizacja losowego cytatu
 function setRandomQuote() {
     const quotes = APP_DATA.privacyQuotes;
     const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -104,45 +114,103 @@ engineSelectModal.addEventListener('change', (e) => {
     setSelectedEngine(e.target.value);
 });
 
-function loadBackground() {
-    const savedBg = localStorage.getItem(STORAGE_KEYS.BACKGROUND);
-    if (savedBg) {
-        backgroundEl.style.backgroundImage = `url(${savedBg})`;
-    } else {
+// --- logika tła z użyciem indexeddb i webp ---
+
+async function loadBackground() {
+    try {
+        const savedBlob = await getFromDB('background');
+        
+        // zwolnienie starego obiektu z pamięci, jeśli istnieje
+        if (currentBgObjectUrl) {
+            URL.revokeObjectURL(currentBgObjectUrl);
+        }
+
+        if (savedBlob) {
+            currentBgObjectUrl = URL.createObjectURL(savedBlob);
+            backgroundEl.style.backgroundImage = `url(${currentBgObjectUrl})`;
+        } else {
+            backgroundEl.style.backgroundImage = 'linear-gradient(135deg, #0d1117 0%, #161b22 100%)';
+        }
+    } catch (err) {
+        console.error('Błąd podczas ładowania tła:', err);
         backgroundEl.style.backgroundImage = 'linear-gradient(135deg, #0d1117 0%, #161b22 100%)';
     }
 }
 
-function setBackground(dataUrl) {
-    if (dataUrl) {
-        localStorage.setItem(STORAGE_KEYS.BACKGROUND, dataUrl);
-        backgroundEl.style.backgroundImage = `url(${dataUrl})`;
-    } else {
-        localStorage.removeItem(STORAGE_KEYS.BACKGROUND);
-        loadBackground();
+async function processAndSetBackground(file) {
+    try {
+        // 1. wczytanie obrazu z uwzględnieniem orientacji exif (ważne dla zdjęć z telefonu)
+        const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+        
+        // 2. obliczenie nowych wymiarów (max 1920x1080)
+        const MAX_WIDTH = 1920;
+        const MAX_HEIGHT = 1080;
+        let width = bitmap.width;
+        let height = bitmap.height;
+
+        if (width > height) {
+            if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+            }
+        } else {
+            if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+            }
+        }
+
+        // 3. rysowanie na canvasie (używamy offscreencanvas jeśli jest dostępny)
+        const canvas = (typeof OffscreenCanvas !== 'undefined') 
+            ? new OffscreenCanvas(width, height) 
+            : document.createElement('canvas');
+        
+        if (!(canvas instanceof OffscreenCanvas)) {
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(bitmap, 0, 0, width, height);
+
+        // 4. kompresja do formatu webp
+        let blob;
+        if (canvas instanceof OffscreenCanvas) {
+            blob = await canvas.convertToBlob({ type: 'image/webp', quality: 0.8 });
+        } else {
+            blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', 0.8));
+        }
+
+        // 5. zapisanie blob w indexeddb
+        await saveToDB('background', blob);
+        
+        // 6. zwolnienie pamięci i zaktualizowanie widoku
+        bitmap.close();
+        await loadBackground();
+
+    } catch (error) {
+        console.error('Błąd podczas przetwarzania obrazu:', error);
+        alert('Wystąpił błąd podczas przetwarzania obrazu. Spróbuj wybrać inny plik.');
     }
 }
 
 bgUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
-    if (file.size > 2 * 1024 * 1024) {
-        alert('Plik jest zbyt duży. Wybierz obraz mniejszy niż 2MB.');
-        return;
+    processAndSetBackground(file);
+});
+
+bgReset.addEventListener('click', async () => {
+    try {
+        await deleteFromDB('background');
+        await loadBackground();
+        bgUpload.value = '';
+    } catch (err) {
+        console.error('Błąd podczas resetowania tła:', err);
     }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        setBackground(event.target.result);
-    };
-    reader.readAsDataURL(file);
 });
 
-bgReset.addEventListener('click', () => {
-    setBackground(null);
-    bgUpload.value = '';
-});
+// --- koniec logiki tła ---
 
 function openSettings() {
     settingsModal.classList.remove('hidden');
@@ -166,5 +234,3 @@ document.addEventListener('keydown', (e) => {
         closeSettings();
     }
 });
-
-loadBackground();
