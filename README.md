@@ -12,6 +12,14 @@
 
 Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. Strona startowa inspirowana stylem wizualnym przeglądarki **RedApp** oraz funkcjonalnością **Hostux.page**.
 
+## 📸 Zrzuty ekranu
+
+<div align="center">
+  <img src="assets/screenshots/screen-default.webp" width="30%" alt="Domyślny widok" style="border-radius: 12px; margin: 5px;">
+  <img src="assets/screenshots/screen-bg.webp" width="30%" alt="Widok z własnym tłem" style="border-radius: 12px; margin: 5px;">
+  <img src="assets/screenshots/screen-settings.webp" width="30%" alt="Panel ustawień" style="border-radius: 12px; margin: 5px;">
+</div>
+
 ## 🛡️ Filozofia "Distrust"
 
 - **Zero logów** – żadne dane nie są wysyłane na serwer.
@@ -51,6 +59,7 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 ```text
 /
 ├── assets/
+│   ├── screenshots/          # zrzuty ekranu do readme
 │   ├── icon-512.png          # główna ikona (pwa)
 │   ├── favicon.ico           # ikona dla przeglądarek
 │   ├── favicon.svg           # wektorowa ikona dla nowoczesnych przeglądarek
