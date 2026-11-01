@@ -363,6 +363,8 @@ body {
     max-width: 400px;
     border: 1px solid var(--search-border);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-height: 90vh; /* zapobiega wychodzeniu modala poza ekran */
+    overflow-y: auto; /* umożliwia przewijanie przy dużej liczbie opcji */
 }
 
 .modal-content h2 {
@@ -421,7 +423,7 @@ body {
     color-scheme: dark;
 }
 
-/* nowa sekcja kopii zapasowej w ustawieniach */
+/* nowa sekcja kopii zapasowej i wyszukiwarek w ustawieniach */
 .backup-section {
     margin-top: 30px;
     border-top: 1px solid var(--search-border);
@@ -467,6 +469,51 @@ body {
 .btn-primary:hover, .btn-secondary:hover {
     opacity: 0.8;
 }
+
+/* --- style dla sekcji własnych wyszukiwarek --- */
+
+#custom-engine-name {
+    margin-bottom: 5px;
+}
+
+#custom-engine-url {
+    margin-bottom: 10px;
+}
+
+.custom-engines-list {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.custom-engine-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.custom-engine-item:last-child {
+    border-bottom: none;
+}
+
+.remove-engine-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 0.85rem;
+    opacity: 0.8;
+    transition: opacity var(--transition);
+}
+
+.remove-engine-btn:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* --- koniec stylów własnych wyszukiwarek --- */
 
 @media (max-width: 500px) {
     .container {
