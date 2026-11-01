@@ -52,11 +52,7 @@
         <section class="search-section">
             <div class="search-wrapper">
                 <select id="engine-select" class="engine-select" aria-label="Wybierz wyszukiwarkę">
-                    <option value="duckduckgo">DuckDuckGo</option>
-                    <option value="startpage">Startpage</option>
-                    <option value="brave">Brave Search</option>
-                    <option value="qwant">Qwant</option>
-                    <option value="searxng_lab042">SearXNG (lab042)</option>
+                    <!-- opcje generowane przez js/engines.js -->
                 </select>
                 <form id="search-form" class="search-form" role="search">
                     <input 
@@ -115,15 +111,20 @@
             <div class="setting-group">
                 <label for="engine-select-modal">Domyślna wyszukiwarka</label>
                 <select id="engine-select-modal">
-                    <option value="duckduckgo">DuckDuckGo</option>
-                    <option value="startpage">Startpage</option>
-                    <option value="brave">Brave Search</option>
-                    <option value="qwant">Qwant</option>
-                    <option value="searxng_lab042">SearXNG (lab042)</option>
+                    <!-- opcje generowane przez js/engines.js -->
                 </select>
             </div>
 
-            <!-- nowa sekcja kopii zapasowej -->
+            <!-- sekcja własnych wyszukiwarek -->
+            <div class="setting-group backup-section">
+                <label>Dodaj własną wyszukiwarkę</label>
+                <input type="text" id="custom-engine-name" placeholder="Nazwa (np. Moja SearXNG)">
+                <input type="text" id="custom-engine-url" placeholder="URL z %s (np. https://.../search?q=%s)">
+                <button id="add-engine-btn" class="btn-secondary">Dodaj wyszukiwarkę</button>
+                <div id="custom-engines-list" class="custom-engines-list"></div>
+            </div>
+
+            <!-- sekcja kopii zapasowej -->
             <div class="setting-group backup-section">
                 <label>Kopia zapasowa ustawień</label>
                 <button id="export-settings-btn" class="btn-secondary">Eksportuj do pliku (JSON)</button>
@@ -163,8 +164,10 @@
     <!-- skrypty -->
     <script src="js/data.js"></script>
     <script src="js/db.js"></script>
+    <!-- engines.js musi być przed script.js -->
+    <script src="js/engines.js"></script>
     <script src="js/script.js"></script>
-    <!-- backup.js musi być załadowany na końcu -->
+    <!-- backup.js musi być na końcu -->
     <script src="js/backup.js"></script>
 </body>
 </html>
