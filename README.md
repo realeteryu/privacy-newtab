@@ -3,13 +3,13 @@
   
   # Privacy NewTab
   
-  **Minimalistyczna, w 100% prywatna strona startowa (New Tab).**
+  **Minimalistyczna, w 100% prywatna nowa karta i strona startowa.**
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-f50056.svg)](https://opensource.org/licenses/MIT)
   [![Live Demo](https://img.shields.io/badge/Demo-newtab.eteryu.space-f50056)](https://newtab.eteryu.space)
 </div>
 
-Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. Strona startowa inspirowana stylem wizualnym przeglądarki **RedApp** oraz funkcjonalnością **Hostux.page**.
+Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. Nowa karta i strona startowa inspirowana stylem wizualnym przeglądarki **RedApp** oraz funkcjonalnością **Hostux.page**.
 
 ## 🛡️ Filozofia "Distrust"
 
@@ -52,7 +52,7 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 - [x] Dodanie kafelków ze skrótami.
 - [x] Optymalizacja obrazów tła do WebP.
 - [ ] Możliwość eksportu i importu ustawień (tła, skróty) do pliku JSON.
-- [ ] Stworzenie dedykowanego rozszerzenia do przeglądarki (wtyczki) ułatwiającego podmianę nowej karty.
+- [ ] Stworzenie dedykowanego rozszerzenia do przeglądarki (wtyczki) ułatwiającego podmianę domyślnej nowej karty.
 
 ## 📁 Struktura plików
 
