@@ -1,7 +1,3 @@
-const STORAGE_KEYS = {
-    ENGINE: 'newtab_engine'
-};
-
 const clockEl = document.getElementById('clock');
 const dateEl = document.getElementById('date');
 const greetingEl = document.getElementById('greeting');
@@ -32,13 +28,20 @@ const exportBtn = document.getElementById('export-settings-btn');
 const importBtn = document.getElementById('import-settings-btn');
 const importFileInput = document.getElementById('import-file-input');
 
-// zmienna do przechowywania obecnego url tła (aby móc go zwolnić z pamięci)
+// elementy do własnych wyszukiwarek
+const customEngineNameInput = document.getElementById('custom-engine-name');
+const customEngineUrlInput = document.getElementById('custom-engine-url');
+const addEngineBtn = document.getElementById('add-engine-btn');
+const customEnginesList = document.getElementById('custom-engines-list');
+
+// zmienna do przechowywania obecnego url tła
 let currentBgObjectUrl = null;
 
-// inicjalizacja bazy danych, ładowanie tła i kafelków przy starcie
+// inicjalizacja bazy danych, ładowanie tła, kafelków i wyszukiwarek przy starcie
 initDB().then(() => {
     loadBackground();
     renderShortcuts();
+    renderEngineOptions(); // <- inicjalizacja listy wyszukiwarek z engines.js
 }).catch((err) => {
     console.error('Nie udało się zainicjalizować bazy danych:', err);
     backgroundEl.style.backgroundImage = 'linear-gradient(135deg, #0d1117 0%, #161b22 100%)';
@@ -60,7 +63,6 @@ function updateClock() {
 
     const monthDay = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
     
-    // doklejanie święta do daty, jeśli istnieje w bazie
     if (APP_DATA.holidays[monthDay]) {
         dateEl.textContent = `${dateStr} • ${APP_DATA.holidays[monthDay]}`;
     } else {
@@ -95,27 +97,7 @@ function setRandomQuote() {
 }
 setRandomQuote();
 
-function getSelectedEngine() {
-    return localStorage.getItem(STORAGE_KEYS.ENGINE) || 'duckduckgo';
-}
-
-function setSelectedEngine(engineKey) {
-    localStorage.setItem(STORAGE_KEYS.ENGINE, engineKey);
-    engineSelect.value = engineKey;
-    engineSelectModal.value = engineKey;
-}
-
-function performSearch(query) {
-    if (!query.trim()) return;
-    const engineKey = getSelectedEngine();
-    const engine = APP_DATA.searchEngines[engineKey] || APP_DATA.searchEngines.duckduckgo;
-    const url = engine.url.replace('%s', encodeURIComponent(query.trim()));
-    window.location.href = url;
-}
-
-const savedEngine = getSelectedEngine();
-engineSelect.value = savedEngine;
-engineSelectModal.value = savedEngine;
+// --- obsługa zdarzeń wyszukiwarki (logika w engines.js) ---
 
 searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -136,7 +118,6 @@ async function loadBackground() {
     try {
         const savedBlob = await getFromDB('background');
         
-        // zwolnienie starego obiektu z pamięci, jeśli istnieje
         if (currentBgObjectUrl) {
             URL.revokeObjectURL(currentBgObjectUrl);
         }
@@ -155,10 +136,8 @@ async function loadBackground() {
 
 async function processAndSetBackground(file) {
     try {
-        // 1. wczytanie obrazu z uwzględnieniem orientacji exif (ważne dla zdjęć z telefonu)
         const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
         
-        // 2. obliczenie nowych wymiarów (max 1920x1080)
         const MAX_WIDTH = 1920;
         const MAX_HEIGHT = 1080;
         let width = bitmap.width;
@@ -176,7 +155,6 @@ async function processAndSetBackground(file) {
             }
         }
 
-        // 3. rysowanie na canvasie
         const canvas = (typeof OffscreenCanvas !== 'undefined') 
             ? new OffscreenCanvas(width, height) 
             : document.createElement('canvas');
@@ -189,7 +167,6 @@ async function processAndSetBackground(file) {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(bitmap, 0, 0, width, height);
 
-        // 4. kompresja do formatu webp
         let blob;
         if (canvas instanceof OffscreenCanvas) {
             blob = await canvas.convertToBlob({ type: 'image/webp', quality: 0.8 });
@@ -197,10 +174,8 @@ async function processAndSetBackground(file) {
             blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', 0.8));
         }
 
-        // 5. zapisanie blob w indexeddb
         await saveToDB('background', blob);
         
-        // 6. zwolnienie pamięci i zaktualizowanie widoku
         bitmap.close();
         await loadBackground();
 
@@ -252,7 +227,6 @@ async function addShortcut(name, url, customIconBlob = null) {
         alert('Ten skrót już istnieje!');
         return false;
     }
-    // zapisujemy obiekt ze skrótem, opcjonalnie z własną ikoną (blob)
     shortcuts.push({ name, url, iconBlob: customIconBlob });
     await saveShortcuts(shortcuts);
     await renderShortcuts();
@@ -281,7 +255,6 @@ async function renderShortcuts() {
         const iconDiv = document.createElement('div');
         iconDiv.className = 'shortcut-icon';
 
-        // jeśli użytkownik wgrał własną ikonę, używamy jej z bazy danych
         if (shortcut.iconBlob) {
             const iconUrl = URL.createObjectURL(shortcut.iconBlob);
             const img = document.createElement('img');
@@ -290,7 +263,6 @@ async function renderShortcuts() {
             img.onload = () => URL.revokeObjectURL(iconUrl);
             iconDiv.appendChild(img);
         } else {
-            // w przeciwnym razie próbujemy pobrać favicon z serwera docelowego
             try {
                 const domain = new URL(shortcut.url).hostname;
                 const faviconUrl = `https://${domain}/favicon.ico`;
@@ -299,7 +271,6 @@ async function renderShortcuts() {
                 img.src = faviconUrl;
                 img.alt = shortcut.name;
                 
-                // jeśli obrazek nie istnieje (404) lub jest zablokowany, wyświetlamy literę
                 img.onerror = () => {
                     iconDiv.innerHTML = ''; 
                     iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
@@ -318,7 +289,6 @@ async function renderShortcuts() {
         item.appendChild(iconDiv);
         item.appendChild(label);
 
-        // usuwanie skrótu (kliknięcie prawym / przytrzymanie na telefonie)
         item.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             if (confirm(`Czy na pewno chcesz usunąć skrót "${shortcut.name}"?`)) {
@@ -330,7 +300,6 @@ async function renderShortcuts() {
     }
 }
 
-// otwieranie modala dodawania skrótu
 addShortcutBtn.addEventListener('click', () => {
     shortcutNameInput.value = '';
     shortcutUrlInput.value = '';
@@ -339,7 +308,6 @@ addShortcutBtn.addEventListener('click', () => {
     shortcutNameInput.focus();
 });
 
-// zamykanie modala
 function closeShortcutModal() {
     shortcutModal.classList.add('hidden');
 }
@@ -349,7 +317,6 @@ shortcutModal.addEventListener('click', (e) => {
     if (e.target === shortcutModal) closeShortcutModal();
 });
 
-// zapis nowego skrótu z modala
 saveShortcutBtn.addEventListener('click', async () => {
     const url = shortcutUrlInput.value.trim();
     let name = shortcutNameInput.value.trim();
@@ -371,13 +338,11 @@ saveShortcutBtn.addEventListener('click', async () => {
         name = new URL(url).hostname.replace('www.', '');
     }
 
-    // blokada przycisku na czas przetwarzania
     saveShortcutBtn.textContent = 'Zapisywanie...';
     saveShortcutBtn.disabled = true;
 
     let iconBlob = null;
 
-    // jeśli użytkownik wgrał własną ikonę, przetwarzamy ją (zmniejszamy do 128x128)
     if (iconFile) {
         try {
             const bitmap = await createImageBitmap(iconFile);
@@ -386,7 +351,6 @@ saveShortcutBtn.addEventListener('click', async () => {
             canvas.height = 128;
             const ctx = canvas.getContext('2d');
             
-            // rysujemy wyśrodkowane i przeskalowane
             const scale = Math.min(128 / bitmap.width, 128 / bitmap.height);
             const x = (128 / 2) - (bitmap.width / 2) * scale;
             const y = (128 / 2) - (bitmap.height / 2) * scale;
@@ -402,7 +366,6 @@ saveShortcutBtn.addEventListener('click', async () => {
 
     const success = await addShortcut(name, url, iconBlob);
 
-    // przywrócenie przycisku
     saveShortcutBtn.textContent = 'Dodaj';
     saveShortcutBtn.disabled = false;
     
@@ -411,9 +374,48 @@ saveShortcutBtn.addEventListener('click', async () => {
     }
 });
 
-// --- koniec logiki kafelków ---
+// --- logika interfejsu dla własnych wyszukiwarek ---
+
+function renderCustomEnginesList() {
+    const customEngines = getCustomEngines();
+    const keys = Object.keys(customEngines);
+    
+    if (keys.length === 0) {
+        customEnginesList.innerHTML = '<i>Brak własnych wyszukiwarek.</i>';
+        return;
+    }
+    
+    customEnginesList.innerHTML = keys.map(key => `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <span>${customEngines[key].name}</span>
+            <button class="remove-engine-btn" data-key="${key}" style="background: none; border: none; color: var(--accent); cursor: pointer;">Usuń</button>
+        </div>
+    `).join('');
+    
+    document.querySelectorAll('.remove-engine-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const key = e.target.getAttribute('data-key');
+            removeCustomEngine(key);
+            renderCustomEnginesList();
+        });
+    });
+}
+
+addEngineBtn.addEventListener('click', () => {
+    const name = customEngineNameInput.value.trim();
+    const url = customEngineUrlInput.value.trim();
+    
+    if (addCustomEngine(name, url)) {
+        customEngineNameInput.value = '';
+        customEngineUrlInput.value = '';
+        renderCustomEnginesList();
+    }
+});
+
+// --- koniec logiki kafelków i wyszukiwarek ---
 
 function openSettings() {
+    renderCustomEnginesList(); // <-- odświeżenie listy przy otwarciu
     settingsModal.classList.remove('hidden');
 }
 
