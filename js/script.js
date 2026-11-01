@@ -27,6 +27,11 @@ const shortcutIconUpload = document.getElementById('shortcut-icon-upload');
 const saveShortcutBtn = document.getElementById('save-shortcut-btn');
 const cancelShortcutBtn = document.getElementById('cancel-shortcut-btn');
 
+// elementy do backupu
+const exportBtn = document.getElementById('export-settings-btn');
+const importBtn = document.getElementById('import-settings-btn');
+const importFileInput = document.getElementById('import-file-input');
+
 // zmienna do przechowywania obecnego url tła (aby móc go zwolnić z pamięci)
 let currentBgObjectUrl = null;
 
@@ -424,6 +429,36 @@ settingsModal.addEventListener('click', (e) => {
         closeSettings();
     }
 });
+
+// --- logika delegowania eksportu i importu (do pliku backup.js) ---
+
+exportBtn.addEventListener('click', () => {
+    exportSettings().catch(err => {
+        console.error('Błąd eksportu:', err);
+        alert('Wystąpił błąd podczas eksportowania ustawień.');
+    });
+});
+
+importBtn.addEventListener('click', () => {
+    importFileInput.click();
+});
+
+importFileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+        await importSettings(file);
+        alert('Ustawienia zostały pomyślnie zaimportowane.');
+        closeSettings();
+    } catch (err) {
+        console.error('Błąd importu:', err);
+        alert('Błąd podczas importu. Upewnij się, że wybierasz poprawny plik kopii zapasowej.');
+    } finally {
+        importFileInput.value = '';
+    }
+});
+
+// --- koniec logiki backupu ---
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !settingsModal.classList.contains('hidden')) {
