@@ -26,6 +26,7 @@ Projekt opiera się na zasadzie świadomego braku zaufania do domyślnych rozwi�
 - **Pasek wyszukiwania** – umieszczony centralnie, pod zegarem.
 - **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami.
 - **Kafelki ze skrótami** – możliwość dodawania ulubionych stron z własnymi ikonami.
+- **Kopia zapasowa ustawień** – możliwość bezpiecznego eksportu i importu konfiguracji (tła, skrótów, wyszukiwarki) do pliku JSON.
 - **Powitanie i cytaty** – dynamiczny tekst powitalny dostosowany do pory dnia oraz losowy cytat o prywatności.
 - **PWA Ready** – możliwość zainstalowania jako aplikacja/skrót na telefonie (dzięki manifestowi).
 - **Responsywność** – działa zarówno na desktopie, jak i na urządzeniach mobilnych.
@@ -43,15 +44,16 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 
 - Czysty HTML5
 - CSS3 (zmienne, flexbox, animacje, glassmorphism)
-- Vanilla JavaScript (ES6+, Canvas API, IndexedDB)
+- Vanilla JavaScript (ES6+, Canvas API, IndexedDB, FileReader)
 - `IndexedDB` (bezpieczne i pojemne przechowywanie tła i skrótów)
 - `localStorage` (przechowywanie preferencji wyszukiwarki)
+- Format `JSON` (eksport i import konfiguracji)
 
 ## 🗺️ Roadmap (Plany na przyszłość)
 
 - [x] Dodanie kafelków ze skrótami.
 - [x] Optymalizacja obrazów tła do WebP.
-- [ ] Możliwość eksportu i importu ustawień (tła, skróty) do pliku JSON.
+- [x] Możliwość eksportu i importu ustawień (tła, skróty) do pliku JSON.
 - [ ] Stworzenie dedykowanego rozszerzenia do przeglądarki (wtyczki) ułatwiającego podmianę domyślnej nowej karty.
 
 ## 📁 Struktura plików
@@ -63,13 +65,15 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 │   ├── favicon.ico           # ikona dla przeglądarek
 │   ├── favicon.svg           # wektorowa ikona dla nowoczesnych przeglądarek
 │   ├── favicon-96x96.png     # ikona png
-│   └── apple-touch-icon.png  # ikona dla urządzeń apple
+│   ├── apple-touch-icon.png  # ikona dla urządzeń apple
+│   └── og-image.png          # obraz dla mediów społecznościowych (open graph)
 ├── css/
 │   └── style.css             # arkusz stylów
 ├── js/
 │   ├── data.js               # statyczne dane (wyszukiwarki, cytaty, święta)
 │   ├── db.js                 # obsługa bazy IndexedDB (przechowywanie tła i skrótów)
-│   └── script.js             # główna logika aplikacji
+│   ├── script.js             # główna logika aplikacji
+│   └── backup.js             # logika eksportu i importu ustawień
 ├── index.html                # główny plik HTML
 ├── manifest.json             # konfiguracja PWA
 ├── README.md                 # ten plik
