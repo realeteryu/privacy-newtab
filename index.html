@@ -123,6 +123,14 @@
                 </select>
             </div>
 
+            <!-- nowa sekcja kopii zapasowej -->
+            <div class="setting-group backup-section">
+                <label>Kopia zapasowa ustawień</label>
+                <button id="export-settings-btn" class="btn-secondary">Eksportuj do pliku (JSON)</button>
+                <button id="import-settings-btn" class="btn-secondary">Importuj z pliku</button>
+                <input type="file" id="import-file-input" accept=".json" class="hidden-input">
+            </div>
+
             <button id="close-settings" class="btn-primary">Zamknij</button>
         </div>
     </div>
@@ -156,5 +164,7 @@
     <script src="js/data.js"></script>
     <script src="js/db.js"></script>
     <script src="js/script.js"></script>
+    <!-- backup.js musi być załadowany na końcu -->
+    <script src="js/backup.js"></script>
 </body>
 </html>
