@@ -385,10 +385,11 @@ function renderCustomEnginesList() {
         return;
     }
     
+    // używamy klas z css/style.css zamiast stylów inline
     customEnginesList.innerHTML = keys.map(key => `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+        <div class="custom-engine-item">
             <span>${customEngines[key].name}</span>
-            <button class="remove-engine-btn" data-key="${key}" style="background: none; border: none; color: var(--accent); cursor: pointer;">Usuń</button>
+            <button class="remove-engine-btn" data-key="${key}">Usuń</button>
         </div>
     `).join('');
     
