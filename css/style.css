@@ -7,6 +7,8 @@
     --search-border: rgba(255, 255, 255, 0.2);
     --modal-bg: #161b22;
     --transition: 0.3s ease;
+    /* wymusza ciemny motyw dla systemowych elementów (np. select, scrollbar) */
+    color-scheme: dark;
 }
 
 * {
@@ -163,10 +165,11 @@ body {
     background-position: right 0 center;
     background-size: 10px;
     padding-right: 20px;
+    color-scheme: dark;
 }
 
 .engine-select option {
-    background: var(--modal-bg);
+    background-color: var(--modal-bg);
     color: var(--text-primary);
 }
 
@@ -415,6 +418,7 @@ body {
     color: var(--text-primary);
     cursor: pointer;
     outline: none;
+    color-scheme: dark;
 }
 
 /* nowa sekcja kopii zapasowej w ustawieniach */
