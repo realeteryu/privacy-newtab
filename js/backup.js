@@ -14,16 +14,18 @@ const base64ToBlob = async (base64) => {
 // główna funkcja eksportu
 async function exportSettings() {
     const engine = getSelectedEngine();
+    const customEngines = getCustomEngines(); // <- pobieranie własnych wyszukiwarek
     const shortcuts = await getShortcuts();
     const bgBlob = await getFromDB('background');
 
     // budowanie wersjonowanej koperty
     const envelope = {
         app: 'privacy-newtab',
-        version: '1.0.0',
+        version: '1.1.0', // podbicie wersji z powodu nowej struktury
         exportedAt: new Date().toISOString(),
         data: {
             engine,
+            customEngines, // <- dodawanie do kopii zapasowej
             background: bgBlob ? await blobToBase64(bgBlob) : null,
             shortcuts: []
         }
@@ -58,10 +60,22 @@ async function importSettings(file) {
         throw new Error('Nieprawidłowy plik kopii zapasowej.');
     }
 
-    const { engine, background, shortcuts } = parsed.data;
+    const { engine, customEngines, background, shortcuts } = parsed.data;
 
-    // nadpisywanie wyszukiwarki
-    if (engine) setSelectedEngine(engine);
+    // nadpisywanie własnych wyszukiwarek
+    if (customEngines) {
+        saveCustomEngines(customEngines);
+    }
+
+    // nadpisywanie wybranej wyszukiwarki
+    if (engine) {
+        setSelectedEngine(engine);
+    }
+    
+    // odświeżenie listy wyszukiwarek w UI (jeśli istnieje)
+    if (typeof renderEngineOptions === 'function') {
+        renderEngineOptions();
+    }
 
     // nadpisywanie tła
     if (background) {
@@ -81,6 +95,6 @@ async function importSettings(file) {
     await saveShortcuts(restored);
 
     // odświeżenie interfejsu
-    await loadBackground();
-    await renderShortcuts();
+    if (typeof loadBackground === 'function') await loadBackground();
+    if (typeof renderShortcuts === 'function') await renderShortcuts();
 }
