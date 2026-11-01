@@ -25,8 +25,9 @@ Projekt opiera się na zasadzie świadomego braku zaufania do domyślnych rozwi�
 - **Duży, wyraźny zegar i data** – z automatycznym wskaźnikiem popularnych świąt.
 - **Pasek wyszukiwania** – umieszczony centralnie, pod zegarem.
 - **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami.
+- **Własne wyszukiwarki** – możliwość dodania dowolnego silnika wyszukiwania (np. własnej instancji SearXNG) poprzez podanie nazwy i adresu URL.
 - **Kafelki ze skrótami** – możliwość dodawania ulubionych stron z własnymi ikonami.
-- **Kopia zapasowa ustawień** – możliwość bezpiecznego eksportu i importu konfiguracji (tła, skrótów, wyszukiwarki) do pliku JSON.
+- **Kopia zapasowa ustawień** – możliwość bezpiecznego eksportu i importu konfiguracji (tła, skrótów, wyszukiwarek) do pliku JSON.
 - **Powitanie i cytaty** – dynamiczny tekst powitalny dostosowany do pory dnia oraz losowy cytat o prywatności.
 - **PWA Ready** – możliwość zainstalowania jako aplikacja/skrót na telefonie (dzięki manifestowi).
 - **Responsywność** – działa zarówno na desktopie, jak i na urządzeniach mobilnych.
@@ -46,7 +47,7 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 - CSS3 (zmienne, flexbox, animacje, glassmorphism)
 - Vanilla JavaScript (ES6+, Canvas API, IndexedDB, FileReader)
 - `IndexedDB` (bezpieczne i pojemne przechowywanie tła i skrótów)
-- `localStorage` (przechowywanie preferencji wyszukiwarki)
+- `localStorage` (przechowywanie preferencji i własnych wyszukiwarek)
 - Format `JSON` (eksport i import konfiguracji)
 
 ## 🗺️ Roadmap (Plany na przyszłość)
@@ -54,6 +55,7 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 - [x] Dodanie kafelków ze skrótami.
 - [x] Optymalizacja obrazów tła do WebP.
 - [x] Możliwość eksportu i importu ustawień (tła, skróty) do pliku JSON.
+- [x] Dodanie możliwości tworzenia własnych wyszukiwarek.
 - [ ] Stworzenie dedykowanego rozszerzenia do przeglądarki (wtyczki) ułatwiającego podmianę domyślnej nowej karty.
 
 ## 📁 Struktura plików
@@ -72,6 +74,7 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 ├── js/
 │   ├── data.js               # statyczne dane (wyszukiwarki, cytaty, święta)
 │   ├── db.js                 # obsługa bazy IndexedDB (przechowywanie tła i skrótów)
+│   ├── engines.js            # zarządzanie wyszukiwarkami (w tym własnymi)
 │   ├── script.js             # główna logika aplikacji
 │   └── backup.js             # logika eksportu i importu ustawień
 ├── index.html                # główny plik HTML
