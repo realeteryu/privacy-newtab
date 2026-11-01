@@ -417,6 +417,22 @@ body {
     outline: none;
 }
 
+/* nowa sekcja kopii zapasowej w ustawieniach */
+.backup-section {
+    margin-top: 30px;
+    border-top: 1px solid var(--search-border);
+    padding-top: 20px;
+}
+
+.backup-section .btn-secondary {
+    margin-bottom: 10px;
+}
+
+/* ukrywanie inputa do wyboru pliku */
+.hidden-input {
+    display: none;
+}
+
 .btn-primary, .btn-secondary {
     padding: 10px 20px;
     border-radius: 8px;
@@ -439,7 +455,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* dodatkowy odstęp dla drugiego przycisku w modalu */
+/* dodatkowy odstęp dla przycisków w modalu */
 .modal .btn-secondary {
     margin-top: 10px;
 }
