@@ -67,7 +67,7 @@ function performSearch(query) {
     window.location.href = url;
 }
 
-// dodawanie nowej własnej wyszukiwarki (wywoływane z UI)
+// dodawanie nowej własnej wyszukiwarki (logika)
 function addCustomEngine(name, url) {
     if (!name || !url) {
         alert('Podaj nazwę i adres URL.');
@@ -101,3 +101,49 @@ function removeCustomEngine(key) {
     
     renderEngineOptions();
 }
+
+// --- logika interfejsu dla własnych wyszukiwarek ---
+
+const customEngineNameInput = document.getElementById('custom-engine-name');
+const customEngineUrlInput = document.getElementById('custom-engine-url');
+const addEngineBtn = document.getElementById('add-engine-btn');
+const customEnginesList = document.getElementById('custom-engines-list');
+
+// renderowanie listy własnych wyszukiwarek w oknie ustawień
+function renderCustomEnginesList() {
+    const customEngines = getCustomEngines();
+    const keys = Object.keys(customEngines);
+    
+    if (keys.length === 0) {
+        customEnginesList.innerHTML = '<i>Brak własnych wyszukiwarek.</i>';
+        return;
+    }
+    
+    customEnginesList.innerHTML = keys.map(key => `
+        <div class="custom-engine-item">
+            <span>${customEngines[key].name}</span>
+            <button class="remove-engine-btn" data-key="${key}">Usuń</button>
+        </div>
+    `).join('');
+    
+    // podpięcie zdarzeń do przycisków usuwania
+    document.querySelectorAll('.remove-engine-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const key = e.target.getAttribute('data-key');
+            removeCustomEngine(key);
+            renderCustomEnginesList();
+        });
+    });
+}
+
+// obsługa przycisku dodawania wyszukiwarki
+addEngineBtn.addEventListener('click', () => {
+    const name = customEngineNameInput.value.trim();
+    const url = customEngineUrlInput.value.trim();
+    
+    if (addCustomEngine(name, url)) {
+        customEngineNameInput.value = '';
+        customEngineUrlInput.value = '';
+        renderCustomEnginesList();
+    }
+});
