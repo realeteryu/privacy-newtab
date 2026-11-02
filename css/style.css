@@ -257,15 +257,15 @@ body {
 /* przycisk x do usuwania */
 .delete-shortcut-btn {
     position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 24px; /* większy obszar klikalny (wcag) */
+    top: 2px;   /* bliżej rogu */
+    right: 2px; /* bliżej rogu */
+    width: 24px; /* zachowany duży obszar klikalny (wcag) */
     height: 24px;
     background: rgba(0, 0, 0, 0.6);
     border: none;
     border-radius: 50%;
-    color: var(--text-secondary); /* neutralny domyślnie */
-    font-size: 16px;
+    color: var(--text-secondary); 
+    font-size: 16px; /* większy x dla lepszej widoczności */
     line-height: 1;
     display: flex;
     align-items: center;
