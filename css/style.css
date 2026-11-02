@@ -7,7 +7,7 @@
     --search-border: rgba(255, 255, 255, 0.2);
     --modal-bg: #161b22;
     --transition: 0.3s ease;
-    /* wymusza ciemny motyw dla systemowych elementów (np. select, scrollbar) */
+    /* ciemny motyw dla elementów systemowych */
     color-scheme: dark;
 }
 
@@ -29,7 +29,7 @@ body {
     background-color: var(--bg-color);
 }
 
-/* nakładka gradientowa poprawiająca czytelność na jasnych tłach */
+/* nakładka gradientowa dla czytelności */
 #background {
     position: fixed;
     top: 0; left: 0;
@@ -42,7 +42,7 @@ body {
     filter: brightness(0.85); 
 }
 
-/* pseudo-element tworzący przyciemniony gradient na górze i dole ekranu */
+/* gradient przyciemniający górę i dół */
 #background::after {
     content: '';
     position: absolute;
@@ -78,7 +78,7 @@ body {
     margin-bottom: 5px;
 }
 
-/* wzmocniony, podwójny cień dla zegara */
+/* cień i stała szerokość cyfr dla zegara */
 .clock {
     font-size: clamp(3rem, 10vw, 5rem);
     font-weight: 600;
@@ -86,6 +86,7 @@ body {
     text-shadow: 
         0 2px 12px rgba(0, 0, 0, 0.9), 
         0 1px 3px rgba(0, 0, 0, 0.9);
+    font-variant-numeric: tabular-nums;
 }
 
 .date {
@@ -128,7 +129,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* ciemniejsze szkło paska wyszukiwania dla lepszego kontrastu */
+/* tło paska wyszukiwania */
 .search-wrapper {
     display: flex;
     align-items: center;
@@ -209,8 +210,7 @@ body {
     color: var(--accent);
 }
 
-/* --- style dla kafelków ze skrótami --- */
-
+/* kafelki */
 .shortcuts-section {
     width: 100%;
     display: flex;
@@ -308,8 +308,6 @@ body {
     transform: scale(1.05);
 }
 
-/* --- koniec stylów kafelków --- */
-
 .footer {
     position: fixed;
     bottom: 20px;
@@ -355,6 +353,7 @@ body {
     opacity: 0;
 }
 
+/* max-height i scroll dla modala */
 .modal-content {
     background: var(--modal-bg);
     padding: 30px;
@@ -363,8 +362,8 @@ body {
     max-width: 400px;
     border: 1px solid var(--search-border);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    max-height: 90vh; /* zapobiega wychodzeniu modala poza ekran */
-    overflow-y: auto; /* umożliwia przewijanie przy dużej liczbie opcji */
+    max-height: 90vh; 
+    overflow-y: auto; 
 }
 
 .modal-content h2 {
@@ -385,7 +384,6 @@ body {
     font-size: 0.9rem;
 }
 
-/* style dla inputów tekstowych (nowy modal) */
 .setting-group input[type="text"] {
     width: 100%;
     padding: 10px;
@@ -423,7 +421,7 @@ body {
     color-scheme: dark;
 }
 
-/* nowa sekcja kopii zapasowej i wyszukiwarek w ustawieniach */
+/* sekcje w ustawieniach (kopia, wyszukiwarki) */
 .backup-section {
     margin-top: 30px;
     border-top: 1px solid var(--search-border);
@@ -434,7 +432,7 @@ body {
     margin-bottom: 10px;
 }
 
-/* ukrywanie inputa do wyboru pliku */
+/* ukryty input pliku */
 .hidden-input {
     display: none;
 }
@@ -461,7 +459,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* dodatkowy odstęp dla przycisków w modalu */
+/* odstępy przycisków w modalu */
 .modal .btn-secondary {
     margin-top: 10px;
 }
@@ -470,8 +468,7 @@ body {
     opacity: 0.8;
 }
 
-/* --- style dla sekcji własnych wyszukiwarek --- */
-
+/* własne wyszukiwarki */
 #custom-engine-name {
     margin-bottom: 5px;
 }
@@ -512,8 +509,6 @@ body {
     opacity: 1;
     text-decoration: underline;
 }
-
-/* --- koniec stylów własnych wyszukiwarek --- */
 
 @media (max-width: 500px) {
     .container {
