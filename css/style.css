@@ -251,7 +251,7 @@ body {
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     text-decoration: none;
     color: var(--text-primary);
-    overflow: hidden; /* przycina zawartość kafelka, ale nie wrappera */
+    overflow: hidden; 
 }
 
 .shortcut-item:hover {
@@ -260,18 +260,13 @@ body {
     box-shadow: 0 5px 15px rgba(245, 0, 86, 0.2);
 }
 
-/* przycisk x do usuwania (wystający) */
+/* przycisk x do usuwania (wizualnie mały, klikalnie duży) */
 .delete-shortcut-btn {
     position: absolute;
-    top: -6px;
-    right: -6px;
+    top: -4px;
+    right: -4px;
     width: 22px;
     height: 22px;
-    /* przezroczysty padding i ujemny margines tworzą duży obszar klikalny (34x34px) */
-    padding: 6px; 
-    margin: -6px; 
-    box-sizing: content-box; 
-    
     background: rgba(0, 0, 0, 0.75); 
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -287,6 +282,18 @@ body {
     opacity: 0;
     transition: opacity 0.2s, background 0.2s, color 0.2s, transform 0.2s, border-color 0.2s;
     z-index: 2;
+}
+
+/* niewidzialny obszar wokół przycisku, który ułatwia klikanie na telefonie */
+.delete-shortcut-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px; /* obszar klikalny (zgodny z wytycznymi Apple) */
+    height: 44px;
+    border-radius: 50%;
 }
 
 /* pokazuje x na desktopie po najechaniu na wrapper */
