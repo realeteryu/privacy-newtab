@@ -245,6 +245,10 @@ async function renderShortcuts() {
     shortcutsGrid.innerHTML = ''; 
 
     for (const shortcut of shortcuts) {
+        // wrapper pozwalający przyciskowi wystawać poza kafelek
+        const wrapper = document.createElement('div');
+        wrapper.className = 'shortcut-wrapper';
+
         const item = document.createElement('a');
         item.href = shortcut.url;
         item.target = '_blank';
@@ -300,11 +304,14 @@ async function renderShortcuts() {
         label.className = 'shortcut-label';
         label.textContent = shortcut.name;
 
-        item.appendChild(deleteBtn);
         item.appendChild(iconDiv);
         item.appendChild(label);
 
-        shortcutsGrid.appendChild(item);
+        // składanie w całość
+        wrapper.appendChild(item);
+        wrapper.appendChild(deleteBtn); 
+
+        shortcutsGrid.appendChild(wrapper);
     }
 }
 
