@@ -41,7 +41,7 @@ let currentBgObjectUrl = null;
 initDB().then(() => {
     loadBackground();
     renderShortcuts();
-    renderEngineOptions(); // <- inicjalizacja listy wyszukiwarek z engines.js
+    renderEngineOptions(); 
 }).catch((err) => {
     console.error('Nie udało się zainicjalizować bazy danych:', err);
     backgroundEl.style.backgroundImage = 'linear-gradient(135deg, #0d1117 0%, #161b22 100%)';
@@ -252,6 +252,20 @@ async function renderShortcuts() {
         item.className = 'shortcut-item';
         item.title = shortcut.name;
 
+        // przycisk x do usuwania
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-shortcut-btn';
+        deleteBtn.innerHTML = '&times;';
+        deleteBtn.setAttribute('aria-label', 'Usuń skrót');
+        
+        deleteBtn.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            e.stopPropagation();
+            if (confirm(`Czy na pewno chcesz usunąć skrót "${shortcut.name}"?`)) {
+                removeShortcut(shortcut.url);
+            }
+        });
+
         const iconDiv = document.createElement('div');
         iconDiv.className = 'shortcut-icon';
 
@@ -286,15 +300,9 @@ async function renderShortcuts() {
         label.className = 'shortcut-label';
         label.textContent = shortcut.name;
 
+        item.appendChild(deleteBtn);
         item.appendChild(iconDiv);
         item.appendChild(label);
-
-        item.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            if (confirm(`Czy na pewno chcesz usunąć skrót "${shortcut.name}"?`)) {
-                removeShortcut(shortcut.url);
-            }
-        });
 
         shortcutsGrid.appendChild(item);
     }
@@ -385,7 +393,6 @@ function renderCustomEnginesList() {
         return;
     }
     
-    // używamy klas z css/style.css zamiast stylów inline
     customEnginesList.innerHTML = keys.map(key => `
         <div class="custom-engine-item">
             <span>${customEngines[key].name}</span>
@@ -416,7 +423,7 @@ addEngineBtn.addEventListener('click', () => {
 // --- koniec logiki kafelków i wyszukiwarek ---
 
 function openSettings() {
-    renderCustomEnginesList(); // <-- odświeżenie listy przy otwarciu
+    renderCustomEnginesList();
     settingsModal.classList.remove('hidden');
 }
 
