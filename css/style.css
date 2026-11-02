@@ -228,13 +228,20 @@ body {
     max-width: 600px;
 }
 
+/* wrapper zapobiegający ucinaniu przycisku x */
+.shortcut-wrapper {
+    position: relative;
+    width: 75px;
+    height: 75px;
+}
+
 .shortcut-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 75px;
-    height: 75px;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -244,8 +251,7 @@ body {
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     text-decoration: none;
     color: var(--text-primary);
-    position: relative;
-    overflow: hidden;
+    overflow: hidden; /* przycina zawartość kafelka, ale nie wrappera */
 }
 
 .shortcut-item:hover {
@@ -254,19 +260,22 @@ body {
     box-shadow: 0 5px 15px rgba(245, 0, 86, 0.2);
 }
 
-/* przycisk x do usuwania */
+/* przycisk x do usuwania (wystający) */
 .delete-shortcut-btn {
     position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 22px; /* optymalny rozmiar wizualny */
+    top: -6px;
+    right: -6px;
+    width: 22px;
     height: 22px;
-    /* przezroczysty padding zwiększa obszar klikalny bez zmiany wyglądu */
-    padding: 10px; 
+    /* przezroczysty padding i ujemny margines tworzą duży obszar klikalny (34x34px) */
+    padding: 6px; 
+    margin: -6px; 
     box-sizing: content-box; 
-    margin: -10px; /* korekta pozycji po dodaniu paddingu */
-    background: rgba(0, 0, 0, 0.7); /* ciemniejsze tło */
-    border: none;
+    
+    background: rgba(0, 0, 0, 0.75); 
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     color: var(--text-secondary); 
     font-size: 14px;
@@ -276,12 +285,12 @@ body {
     justify-content: center;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.2s, background 0.2s, color 0.2s, transform 0.2s;
+    transition: opacity 0.2s, background 0.2s, color 0.2s, transform 0.2s, border-color 0.2s;
     z-index: 2;
 }
 
-/* pokazuje x na desktopie po najechaniu */
-.shortcut-item:hover .delete-shortcut-btn {
+/* pokazuje x na desktopie po najechaniu na wrapper */
+.shortcut-wrapper:hover .delete-shortcut-btn {
     opacity: 1;
 }
 
@@ -297,6 +306,7 @@ body {
 .delete-shortcut-btn:focus-visible {
     background: var(--accent);
     color: white;
+    border-color: var(--accent);
     transform: scale(1.1);
 }
 
