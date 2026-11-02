@@ -9,7 +9,6 @@ const engineSelectModal = document.getElementById('engine-select-modal');
 const settingsBtn = document.getElementById('settings-btn');
 const settingsModal = document.getElementById('settings-modal');
 const closeSettingsBtn = document.getElementById('close-settings');
-const shortcutModal = document.getElementById('shortcut-modal');
 
 // elementy do backupu
 const exportBtn = document.getElementById('export-settings-btn');
@@ -141,10 +140,13 @@ importFileInput.addEventListener('change', async (e) => {
 // --- globalne skróty klawiszowe ---
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !settingsModal.classList.contains('hidden')) {
-        closeSettings();
-    }
-    if (e.key === 'Escape' && shortcutModal && !shortcutModal.classList.contains('hidden')) {
-        shortcutModal.classList.add('hidden'); // zamykanie modala skrótów
+    if (e.key === 'Escape') {
+        if (!settingsModal.classList.contains('hidden')) {
+            closeSettings();
+        }
+        const shortcutModal = document.getElementById('shortcut-modal');
+        if (shortcutModal && !shortcutModal.classList.contains('hidden')) {
+            shortcutModal.classList.add('hidden');
+        }
     }
 });
