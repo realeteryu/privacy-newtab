@@ -74,8 +74,10 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 ├── js/
 │   ├── data.js               # statyczne dane (wyszukiwarki, cytaty, święta)
 │   ├── db.js                 # obsługa bazy IndexedDB (przechowywanie tła i skrótów)
-│   ├── engines.js            # zarządzanie wyszukiwarkami (w tym własnymi)
-│   ├── script.js             # główna logika aplikacji
+│   ├── engines.js            # zarządzanie wyszukiwarkami i ich interfejsem
+│   ├── background.js         # logika tła (Canvas, WebP, IndexedDB)
+│   ├── shortcuts.js          # logika kafelków ze skrótami (renderowanie, CRUD)
+│   ├── script.js             # główna logika aplikacji (reżyser)
 │   └── backup.js             # logika eksportu i importu ustawień
 ├── index.html                # główny plik HTML
 ├── manifest.json             # konfiguracja PWA
