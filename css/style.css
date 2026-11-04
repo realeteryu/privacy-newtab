@@ -228,6 +228,22 @@ body {
     max-width: 600px;
 }
 
+/* komunikat pustej listy kafelków */
+.empty-state {
+    width: 100%;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding: 20px 15px;
+    opacity: 0.85;
+}
+
+.empty-hint-plus {
+    color: var(--accent);
+    font-weight: 600;
+}
+
 /* wrapper zapobiegający ucinaniu przycisku x */
 .shortcut-wrapper {
     position: relative;
