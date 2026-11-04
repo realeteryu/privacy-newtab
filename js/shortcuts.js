@@ -32,6 +32,13 @@ async function addShortcut(name, url, customIconBlob = null) {
         alert('Ten skrót już istnieje!');
         return false;
     }
+
+    // walidacja bezpieczeństwa url
+    if (!isSafeUrl(url)) {
+        alert('Adres URL musi zaczynać się od http:// lub https://');
+        return false;
+    }
+
     shortcuts.push({ name, url, iconBlob: customIconBlob });
     await saveShortcuts(shortcuts);
     await renderShortcuts();
@@ -49,15 +56,30 @@ async function renderShortcuts() {
     const shortcuts = await getShortcuts();
     shortcutsGrid.innerHTML = ''; 
 
-    // --- obsługa pustego stanu ---
+    // --- obsługa pustego stanu (bezpieczne budowanie dom) ---
     if (shortcuts.length === 0) {
         const emptyState = document.createElement('div');
         emptyState.className = 'empty-state';
-        // podział na dwie linijki dla lepszej czytelności
-        emptyState.innerHTML = `
-            <span class="empty-title">Brak zapisanych skrótów</span>
-            <span class="empty-desc">Kliknij <span class="empty-hint-plus">+</span> poniżej, aby dodać pierwszy.</span>
-        `;
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'empty-title';
+        titleSpan.textContent = 'Brak zapisanych skrótów';
+
+        const descSpan = document.createElement('span');
+        descSpan.className = 'empty-desc';
+        
+        descSpan.appendChild(document.createTextNode('Kliknij '));
+        
+        const plusSpan = document.createElement('span');
+        plusSpan.className = 'empty-hint-plus';
+        plusSpan.textContent = '+';
+        
+        descSpan.appendChild(plusSpan);
+        descSpan.appendChild(document.createTextNode(' poniżej, aby dodać pierwszy.'));
+
+        emptyState.appendChild(titleSpan);
+        emptyState.appendChild(descSpan);
+        
         shortcutsGrid.appendChild(emptyState);
         return; // przerywamy dalsze wykonywanie funkcji
     }
@@ -157,9 +179,8 @@ saveShortcutBtn.addEventListener('click', async () => {
         return;
     }
 
-    try {
-        new URL(url);
-    } catch (e) {
+    // walidacja bezpieczeństwa url
+    if (!isSafeUrl(url)) {
         alert('Podano nieprawidłowy adres URL. Upewnij się, że zaczyna się od http:// lub https://');
         return;
     }
