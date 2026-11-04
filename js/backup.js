@@ -14,18 +14,18 @@ const base64ToBlob = async (base64) => {
 // główna funkcja eksportu
 async function exportSettings() {
     const engine = getSelectedEngine();
-    const customEngines = getCustomEngines(); // <- pobieranie własnych wyszukiwarek
+    const customEngines = getCustomEngines();
     const shortcuts = await getShortcuts();
     const bgBlob = await getFromDB('background');
 
     // budowanie wersjonowanej koperty
     const envelope = {
         app: 'privacy-newtab',
-        version: '1.1.0', // podbicie wersji z powodu nowej struktury
+        version: '1.1.0',
         exportedAt: new Date().toISOString(),
         data: {
             engine,
-            customEngines, // <- dodawanie do kopii zapasowej
+            customEngines,
             background: bgBlob ? await blobToBase64(bgBlob) : null,
             shortcuts: []
         }
@@ -62,17 +62,26 @@ async function importSettings(file) {
 
     const { engine, customEngines, background, shortcuts } = parsed.data;
 
-    // nadpisywanie własnych wyszukiwarek
+    // nadpisywanie własnych wyszukiwarek (z walidacją bezpieczeństwa)
+    const safeCustomEngines = {};
     if (customEngines) {
-        saveCustomEngines(customEngines);
+        for (const [key, eng] of Object.entries(customEngines)) {
+            if (eng.name && eng.url && isSafeUrl(eng.url)) {
+                safeCustomEngines[key] = eng;
+            }
+        }
     }
+    saveCustomEngines(safeCustomEngines);
 
-    // nadpisywanie wybranej wyszukiwarki
-    if (engine) {
+    // nadpisywanie wybranej wyszukiwarki (tylko jeśli istnieje)
+    const allValidEngines = { ...APP_DATA.searchEngines, ...safeCustomEngines };
+    if (engine && allValidEngines[engine]) {
         setSelectedEngine(engine);
+    } else {
+        setSelectedEngine('duckduckgo');
     }
     
-    // odświeżenie listy wyszukiwarek w UI (jeśli istnieje)
+    // odświeżenie listy wyszukiwarek w UI
     if (typeof renderEngineOptions === 'function') {
         renderEngineOptions();
     }
@@ -84,13 +93,15 @@ async function importSettings(file) {
         await deleteFromDB('background');
     }
 
-    // nadpisywanie skrótów (najpierw usuwamy stare)
+    // nadpisywanie skrótów (z walidacją bezpieczeństwa)
     await deleteFromDB('shortcuts');
     const restored = [];
     for (const s of shortcuts || []) {
-        let iconBlob = null;
-        if (s.iconBlob) iconBlob = await base64ToBlob(s.iconBlob);
-        restored.push({ name: s.name, url: s.url, iconBlob });
+        if (s.name && s.url && isSafeUrl(s.url)) {
+            let iconBlob = null;
+            if (s.iconBlob) iconBlob = await base64ToBlob(s.iconBlob);
+            restored.push({ name: s.name, url: s.url, iconBlob });
+        }
     }
     await saveShortcuts(restored);
 
