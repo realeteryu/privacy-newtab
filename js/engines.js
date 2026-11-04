@@ -5,6 +5,16 @@ const ENGINE_STORAGE_KEYS = {
     CUSTOM_ENGINES: 'newtab_custom_engines'
 };
 
+// funkcja sprawdzająca, czy url jest bezpieczny (tylko http/https)
+function isSafeUrl(url) {
+    try {
+        const parsed = new URL(url);
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    } catch (e) {
+        return false;
+    }
+}
+
 // pobieranie własnych wyszukiwarek z localStorage
 function getCustomEngines() {
     const data = localStorage.getItem(ENGINE_STORAGE_KEYS.CUSTOM_ENGINES);
@@ -74,6 +84,12 @@ function addCustomEngine(name, url) {
         return false;
     }
     
+    // walidacja bezpieczeństwa url
+    if (!isSafeUrl(url)) {
+        alert('Adres URL musi zaczynać się od http:// lub https://');
+        return false;
+    }
+
     if (!url.includes('%s')) {
         alert('Adres URL musi zawierać parametr %s, np. https://przyklad.pl/szukaj?q=%s');
         return false;
@@ -109,30 +125,42 @@ const customEngineUrlInput = document.getElementById('custom-engine-url');
 const addEngineBtn = document.getElementById('add-engine-btn');
 const customEnginesList = document.getElementById('custom-engines-list');
 
-// renderowanie listy własnych wyszukiwarek w oknie ustawień
+// renderowanie listy własnych wyszukiwarek (bezpieczne - zapobiega xss)
 function renderCustomEnginesList() {
     const customEngines = getCustomEngines();
     const keys = Object.keys(customEngines);
     
+    customEnginesList.innerHTML = ''; // czyszczenie
+
     if (keys.length === 0) {
-        customEnginesList.innerHTML = '<i>Brak własnych wyszukiwarek.</i>';
+        const emptyInfo = document.createElement('i');
+        emptyInfo.textContent = 'Brak własnych wyszukiwarek.';
+        customEnginesList.appendChild(emptyInfo);
         return;
     }
     
-    customEnginesList.innerHTML = keys.map(key => `
-        <div class="custom-engine-item">
-            <span>${customEngines[key].name}</span>
-            <button class="remove-engine-btn" data-key="${key}">Usuń</button>
-        </div>
-    `).join('');
-    
-    // podpięcie zdarzeń do przycisków usuwania
-    document.querySelectorAll('.remove-engine-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const key = e.target.getAttribute('data-key');
-            removeCustomEngine(key);
+    keys.forEach(key => {
+        const engine = customEngines[key];
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'custom-engine-item';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = engine.name; // textContent jest bezpieczny
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-engine-btn';
+        removeBtn.textContent = 'Usuń';
+        removeBtn.setAttribute('data-key', key);
+
+        removeBtn.addEventListener('click', (e) => {
+            const keyToRemove = e.target.getAttribute('data-key');
+            removeCustomEngine(keyToRemove);
             renderCustomEnginesList();
         });
+
+        itemDiv.appendChild(nameSpan);
+        itemDiv.appendChild(removeBtn);
+        customEnginesList.appendChild(itemDiv);
     });
 }
 
