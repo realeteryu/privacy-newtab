@@ -53,7 +53,11 @@ async function renderShortcuts() {
     if (shortcuts.length === 0) {
         const emptyState = document.createElement('div');
         emptyState.className = 'empty-state';
-        emptyState.innerHTML = 'Nie masz jeszcze żadnych skrótów. Kliknij <span class="empty-hint-plus">+</span> poniżej, aby dodać pierwszy.';
+        // podział na dwie linijki dla lepszej czytelności
+        emptyState.innerHTML = `
+            <span class="empty-title">Brak zapisanych skrótów</span>
+            <span class="empty-desc">Kliknij <span class="empty-hint-plus">+</span> poniżej, aby dodać pierwszy.</span>
+        `;
         shortcutsGrid.appendChild(emptyState);
         return; // przerywamy dalsze wykonywanie funkcji
     }
