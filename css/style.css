@@ -231,17 +231,31 @@ body {
 /* komunikat pustej listy kafelków */
 .empty-state {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 15px 15px 0 15px;
     text-align: center;
+}
+
+.empty-title {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.empty-desc {
     color: var(--text-secondary);
     font-size: 0.85rem;
-    line-height: 1.6;
-    padding: 20px 15px;
-    opacity: 0.85;
+    opacity: 0.8;
 }
 
 .empty-hint-plus {
     color: var(--accent);
     font-weight: 600;
+    margin: 0 2px;
 }
 
 /* wrapper zapobiegający ucinaniu przycisku x */
