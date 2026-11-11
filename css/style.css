@@ -401,14 +401,18 @@ body {
     transform: scale(1.05);
 }
 
+/* stopka z przyciskami */
 .footer {
     position: fixed;
     bottom: 20px;
     right: 20px;
     z-index: 10;
+    display: flex;
+    gap: 10px; /* odstęp między przyciskami */
 }
 
-.settings-btn {
+/* uniwersalny styl dla przycisków w stopce */
+.icon-btn {
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid var(--search-border);
     color: var(--text-secondary);
@@ -420,12 +424,26 @@ body {
     justify-content: center;
     cursor: pointer;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: color var(--transition), background var(--transition);
 }
 
-.settings-btn:hover {
+.icon-btn:hover {
     color: var(--text-primary);
     background: rgba(0, 0, 0, 0.7);
+}
+
+/* ukrywanie elementów svg */
+.icon-btn .hidden {
+    display: none;
+}
+
+/* efekt rozmycia kafelków w trybie prywatnym */
+.privacy-mode-active .shortcut-wrapper {
+    filter: blur(8px);
+    opacity: 0.7;
+    pointer-events: none; /* blokuje klikanie w rozmyte kafelki */
+    transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
 .modal {
