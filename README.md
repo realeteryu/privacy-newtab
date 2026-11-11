@@ -9,9 +9,9 @@
   [![Live Demo](https://img.shields.io/badge/Demo-newtab.eteryu.space-f50056)](https://newtab.eteryu.space)
 </div>
 
-Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. Nowa karta i strona startowa inspirowana stylem wizualnym przeglądarki **RedApp** oraz funkcjonalnością **Hostux.page**.
+Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. Nowa karta i strona startowa inspirowana stylem wizualnym przeglądarki RedApp oraz funkcjonalnością Hostux.page.
 
-## 🛡️ Filozofia "Distrust"
+## Filozofia "Distrust"
 
 Projekt opiera się na zasadzie świadomego braku zaufania do domyślnych rozwiązań big tech:
 - **Zero logów** – żadne dane nie są wysyłane na serwer.
@@ -19,9 +19,10 @@ Projekt opiera się na zasadzie świadomego braku zaufania do domyślnych rozwi�
 - **Zero backendu** – wszystko działa lokalnie w przeglądarce (Local-first).
 - **Zero zewnętrznych zależności** – brak frameworków CSS/JS, zewnętrznych czcionek czy bibliotek.
 
-## ✨ Funkcje
+## Funkcje
 
 - **Ciemne, minimalistyczne tło** – możliwość ustawienia własnego obrazu z dysku (z automatyczną optymalizacją do WebP i zapisem w IndexedDB).
+- **Tryb prywatny** – możliwość jednym kliknięciem rozmycia kafelków ze skrótami w celu ochrony przed podglądaniem.
 - **Duży, wyraźny zegar i data** – z automatycznym wskaźnikiem popularnych świąt.
 - **Pasek wyszukiwania** – umieszczony centralnie, pod zegarem.
 - **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami.
@@ -32,16 +33,16 @@ Projekt opiera się na zasadzie świadomego braku zaufania do domyślnych rozwi�
 - **PWA Ready** – możliwość zainstalowania jako aplikacja/skrót na telefonie (dzięki manifestowi).
 - **Responsywność** – działa zarówno na desktopie, jak i na urządzeniach mobilnych.
 
-## 🔍 Wspierane wyszukiwarki
+## Wspierane wyszukiwarki
 
 Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 - DuckDuckGo
 - Startpage
 - Brave Search
 - Qwant
-- **SearXNG (lab042)** – serdeczne podziękowania dla [@michal@101010.pl](https://101010.pl/@michal) za udostępnienie instancji!
+- SearXNG (lab042) – instancja udostępniona przez [@michal@101010.pl](https://101010.pl/@michal).
 
-## 🛠️ Technologie
+## Technologie
 
 - Czysty HTML5
 - CSS3 (zmienne, flexbox, animacje, glassmorphism)
@@ -50,15 +51,17 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 - `localStorage` (przechowywanie preferencji i własnych wyszukiwarek)
 - Format `JSON` (eksport i import konfiguracji)
 
-## 🗺️ Roadmap (Plany na przyszłość)
+## Roadmap (Plany na przyszłość)
 
 - [x] Dodanie kafelków ze skrótami.
 - [x] Optymalizacja obrazów tła do WebP.
 - [x] Możliwość eksportu i importu ustawień (tła, skróty) do pliku JSON.
 - [x] Dodanie możliwości tworzenia własnych wyszukiwarek.
+- [x] Wdrożenie trybu prywatnego (rozmywanie kafelków).
+- [ ] Możliwość zmiany kolejności kafelków (Drag & Drop), z uwzględnieniem obsługi zdarzeń dotykowych na urządzeniach mobilnych.
 - [ ] Stworzenie dedykowanego rozszerzenia do przeglądarki (wtyczki) ułatwiającego podmianę domyślnej nowej karty.
 
-## 📁 Struktura plików
+## Struktura plików
 
 ```text
 /
@@ -85,11 +88,11 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 └── LICENSE                   # licencja MIT
 ```
 
-## 📄 Licencja
+## Licencja
 
-Ten projekt jest objęty licencją **MIT**. Szczegóły w pliku [LICENSE](LICENSE).
+Ten projekt jest objęty licencją MIT. Szczegóły w pliku [LICENSE](LICENSE).
 
-## 🙏 Inspiracje
+## Inspiracje
 
 - [RedApp](https://redapp.app/) – styl wizualny
 - [Hostux.page](https://hostux.page/) – układ i funkcjonalność
