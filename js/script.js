@@ -15,6 +15,12 @@ const exportBtn = document.getElementById('export-settings-btn');
 const importBtn = document.getElementById('import-settings-btn');
 const importFileInput = document.getElementById('import-file-input');
 
+// elementy do trybu prywatnego
+const privacyModeBtn = document.getElementById('privacy-mode-btn');
+const eyeOpen = document.getElementById('eye-open');
+const eyeClosed = document.getElementById('eye-closed');
+const shortcutsGridEl = document.getElementById('shortcuts-grid');
+
 // inicjalizacja bazy danych, ładowanie tła, kafelków i wyszukiwarek przy starcie
 initDB().then(() => {
     loadBackground(); // z background.js
@@ -108,6 +114,33 @@ settingsModal.addEventListener('click', (e) => {
         closeSettings();
     }
 });
+
+// --- logika trybu prywatnego ---
+
+function initPrivacyMode() {
+    const isActive = localStorage.getItem('newtab_privacy_mode') === 'true';
+    if (isActive) {
+        shortcutsGridEl.classList.add('privacy-mode-active');
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+    }
+}
+
+privacyModeBtn.addEventListener('click', () => {
+    const isActive = shortcutsGridEl.classList.toggle('privacy-mode-active');
+    
+    if (isActive) {
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+        localStorage.setItem('newtab_privacy_mode', 'true');
+    } else {
+        eyeOpen.classList.remove('hidden');
+        eyeClosed.classList.add('hidden');
+        localStorage.setItem('newtab_privacy_mode', 'false');
+    }
+});
+
+initPrivacyMode();
 
 // --- logika delegowania eksportu i importu (do pliku backup.js) ---
 
