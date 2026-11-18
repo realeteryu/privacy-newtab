@@ -54,7 +54,7 @@ async function removeShortcut(url) {
 
 async function renderShortcuts() {
     const shortcuts = await getShortcuts();
-    shortcutsGrid.innerHTML = ''; 
+    shortcutsGrid.innerHTML = '';
 
     // --- obsługa pustego stanu (bezpieczne budowanie dom) ---
     if (shortcuts.length === 0) {
@@ -67,89 +67,91 @@ async function renderShortcuts() {
 
         const descSpan = document.createElement('span');
         descSpan.className = 'empty-desc';
-        
+
         descSpan.appendChild(document.createTextNode('Kliknij '));
-        
+
         const plusSpan = document.createElement('span');
         plusSpan.className = 'empty-hint-plus';
         plusSpan.textContent = '+';
-        
+
         descSpan.appendChild(plusSpan);
         descSpan.appendChild(document.createTextNode(' poniżej, aby dodać pierwszy.'));
 
         emptyState.appendChild(titleSpan);
         emptyState.appendChild(descSpan);
-        
+
         shortcutsGrid.appendChild(emptyState);
-        return; // przerywamy dalsze wykonywanie funkcji
-    }
+    } else {
+        for (const shortcut of shortcuts) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'shortcut-wrapper';
 
-    for (const shortcut of shortcuts) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'shortcut-wrapper';
+            const item = document.createElement('a');
+            item.href = shortcut.url;
+            item.target = '_blank';
+            item.rel = 'noopener noreferrer';
+            item.className = 'shortcut-item';
+            item.title = shortcut.name;
 
-        const item = document.createElement('a');
-        item.href = shortcut.url;
-        item.target = '_blank';
-        item.rel = 'noopener noreferrer';
-        item.className = 'shortcut-item';
-        item.title = shortcut.name;
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-shortcut-btn';
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.setAttribute('aria-label', 'Usuń skrót');
 
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-shortcut-btn';
-        deleteBtn.innerHTML = '&times;';
-        deleteBtn.setAttribute('aria-label', 'Usuń skrót');
-        
-        deleteBtn.addEventListener('click', (e) => {
-            e.preventDefault(); 
-            e.stopPropagation();
-            if (confirm(`Czy na pewno chcesz usunąć skrót "${shortcut.name}"?`)) {
-                removeShortcut(shortcut.url);
-            }
-        });
+            deleteBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (confirm(`Czy na pewno chcesz usunąć skrót "${shortcut.name}"?`)) {
+                    removeShortcut(shortcut.url);
+                }
+            });
 
-        const iconDiv = document.createElement('div');
-        iconDiv.className = 'shortcut-icon';
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'shortcut-icon';
 
-        if (shortcut.iconBlob) {
-            const iconUrl = URL.createObjectURL(shortcut.iconBlob);
-            const img = document.createElement('img');
-            img.src = iconUrl;
-            img.alt = shortcut.name;
-            img.onload = () => URL.revokeObjectURL(iconUrl);
-            iconDiv.appendChild(img);
-        } else {
-            try {
-                const domain = new URL(shortcut.url).hostname;
-                const faviconUrl = `https://${domain}/favicon.ico`;
-                
+            if (shortcut.iconBlob) {
+                const iconUrl = URL.createObjectURL(shortcut.iconBlob);
                 const img = document.createElement('img');
-                img.src = faviconUrl;
+                img.src = iconUrl;
                 img.alt = shortcut.name;
-                
-                img.onerror = () => {
-                    iconDiv.innerHTML = ''; 
-                    iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
-                };
-                
+                img.onload = () => URL.revokeObjectURL(iconUrl);
                 iconDiv.appendChild(img);
-            } catch (e) {
-                iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
+            } else {
+                try {
+                    const domain = new URL(shortcut.url).hostname;
+                    const faviconUrl = `https://${domain}/favicon.ico`;
+
+                    const img = document.createElement('img');
+                    img.src = faviconUrl;
+                    img.alt = shortcut.name;
+
+                    img.onerror = () => {
+                        iconDiv.innerHTML = '';
+                        iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
+                    };
+
+                    iconDiv.appendChild(img);
+                } catch (e) {
+                    iconDiv.textContent = shortcut.name.charAt(0).toUpperCase();
+                }
             }
+
+            const label = document.createElement('span');
+            label.className = 'shortcut-label';
+            label.textContent = shortcut.name;
+
+            item.appendChild(iconDiv);
+            item.appendChild(label);
+
+            wrapper.appendChild(item);
+            wrapper.appendChild(deleteBtn);
+
+            shortcutsGrid.appendChild(wrapper);
         }
-
-        const label = document.createElement('span');
-        label.className = 'shortcut-label';
-        label.textContent = shortcut.name;
-
-        item.appendChild(iconDiv);
-        item.appendChild(label);
-
-        wrapper.appendChild(item);
-        wrapper.appendChild(deleteBtn); 
-
-        shortcutsGrid.appendChild(wrapper);
     }
+
+    // Przycisk dodawania zawsze znajduje się na końcu listy skrótów.
+    shortcutsGrid.appendChild(addShortcutBtn);
 }
 
 addShortcutBtn.addEventListener('click', () => {
@@ -201,13 +203,13 @@ saveShortcutBtn.addEventListener('click', async () => {
             canvas.width = 128;
             canvas.height = 128;
             const ctx = canvas.getContext('2d');
-            
+
             const scale = Math.min(128 / bitmap.width, 128 / bitmap.height);
             const x = (128 / 2) - (bitmap.width / 2) * scale;
             const y = (128 / 2) - (bitmap.height / 2) * scale;
-            
+
             ctx.drawImage(bitmap, x, y, bitmap.width * scale, bitmap.height * scale);
-            
+
             iconBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/webp', 0.8));
             bitmap.close();
         } catch (err) {
@@ -219,7 +221,7 @@ saveShortcutBtn.addEventListener('click', async () => {
 
     saveShortcutBtn.textContent = 'Dodaj';
     saveShortcutBtn.disabled = false;
-    
+
     if (success) {
         closeShortcutModal();
     }
