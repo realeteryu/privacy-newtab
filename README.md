@@ -1,8 +1,8 @@
-<div align="center">
+ <div align="center">
   <img src="assets/favicon.svg" width="128" height="128" alt="Privacy NewTab Logo">
-  
+
   # Privacy NewTab
-  
+
   **Minimalistyczna, w 100% prywatna nowa karta i strona startowa.**
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-f50056.svg)](https://opensource.org/licenses/MIT)
@@ -14,6 +14,7 @@ Projekt open-source stworzony z myślą o pełnej prywatności i minimalizmie. N
 ## Filozofia "Distrust"
 
 Projekt opiera się na zasadzie świadomego braku zaufania do domyślnych rozwiązań big tech:
+
 - **Zero logów** – żadne dane nie są wysyłane na serwer.
 - **Zero analityki** – brak jakichkolwiek skryptów śledzących.
 - **Zero backendu** – wszystko działa lokalnie w przeglądarce (Local-first).
@@ -28,14 +29,18 @@ Projekt opiera się na zasadzie świadomego braku zaufania do domyślnych rozwi�
 - **Wybór wyszukiwarki** – rozwijana lista z prywatnymi wyszukiwarkami.
 - **Własne wyszukiwarki** – możliwość dodania dowolnego silnika wyszukiwania (np. własnej instancji SearXNG) poprzez podanie nazwy i adresu URL.
 - **Kafelki ze skrótami** – możliwość dodawania ulubionych stron z własnymi ikonami.
-- **Kopia zapasowa ustawień** – możliwość bezpiecznego eksportu i importu konfiguracji (tła, skrótów, wyszukiwarek) do pliku JSON.
+- **Kopia zapasowa ustawień** – możliwość eksportu i importu konfiguracji do pliku JSON, obejmującej m.in. tło, skróty, wyszukiwarki, widoczność i kolejność sekcji.
 - **Powitanie i cytaty** – dynamiczny tekst powitalny dostosowany do pory dnia oraz losowy cytat o prywatności.
+- **Personalizacja widoczności sekcji** – możliwość niezależnego pokazywania i ukrywania trzech głównych sekcji: Powitania, Wyszukiwarki oraz Skrótów.
+- **Zmiana kolejności sekcji** – możliwość ustawienia pozycji każdej z trzech sekcji (1, 2 lub 3). Wybranie zajętej pozycji automatycznie zamienia kolejność odpowiednich sekcji.
+- **Zapisywanie układu** – ustawienia widoczności i kolejności sekcji są zapisywane lokalnie w przeglądarce i zachowywane po ponownym uruchomieniu strony.
 - **PWA Ready** – możliwość zainstalowania jako aplikacja/skrót na telefonie (dzięki manifestowi).
 - **Responsywność** – działa zarówno na desktopie, jak i na urządzeniach mobilnych.
 
 ## Wspierane wyszukiwarki
 
 Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
+
 - DuckDuckGo
 - Startpage
 - Brave Search
@@ -47,9 +52,9 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 - Czysty HTML5
 - CSS3 (zmienne, flexbox, animacje, glassmorphism)
 - Vanilla JavaScript (ES6+, Canvas API, IndexedDB, FileReader)
-- `IndexedDB` (bezpieczne i pojemne przechowywanie tła i skrótów)
-- `localStorage` (przechowywanie preferencji i własnych wyszukiwarek)
-- Format `JSON` (eksport i import konfiguracji)
+- `IndexedDB` – przechowywanie tła i skrótów.
+- `localStorage` – przechowywanie preferencji, własnych wyszukiwarek, widoczności i kolejności sekcji.
+- Format `JSON` – eksport i import konfiguracji oraz kopii zapasowych.
 
 ## Roadmap (Plany na przyszłość)
 
@@ -58,6 +63,9 @@ Projekt stawia na wolność wyboru i wspiera narzędzia dbające o prywatność:
 - [x] Możliwość eksportu i importu ustawień (tła, skróty) do pliku JSON.
 - [x] Dodanie możliwości tworzenia własnych wyszukiwarek.
 - [x] Wdrożenie trybu prywatnego (rozmywanie kafelków).
+- [x] Możliwość ukrywania i przywracania głównych sekcji strony.
+- [x] Możliwość zmiany kolejności głównych sekcji.
+- [x] Zapisywanie widoczności i kolejności sekcji w kopii zapasowej.
 - [ ] Możliwość zmiany kolejności kafelków (Drag & Drop), z uwzględnieniem obsługi zdarzeń dotykowych na urządzeniach mobilnych.
 - [ ] Stworzenie dedykowanego rozszerzenia do przeglądarki (wtyczki) ułatwiającego podmianę domyślnej nowej karty.
 
@@ -94,5 +102,5 @@ Ten projekt jest objęty licencją MIT. Szczegóły w pliku [LICENSE](LICENSE).
 
 ## Inspiracje
 
-- [RedApp](https://redapp.app/) – styl wizualny
-- [Hostux.page](https://hostux.page/) – układ i funkcjonalność
+- [RedApp](https://redapp.app/) – styl wizualny.
+- [Hostux.page](https://hostux.page/) – układ i funkcjonalność.
