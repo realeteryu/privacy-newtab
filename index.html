@@ -36,17 +36,18 @@
     <div id="background"></div>
 
     <main class="container">
-        <!-- zegar -->
-        <section class="clock-section">
-            <div id="clock" class="clock">00:00:00</div>
-            <div id="date" class="date">Poniedziałek, 1 stycznia</div>
-        </section>
+        <!-- powitania: zegar, data, powitanie i cytat -->
+        <section id="greeting-section" class="greeting-section">
+            <div class="clock-section">
+                <div id="clock" class="clock">00:00:00</div>
+                <div id="date" class="date">Poniedziałek, 1 stycznia</div>
+            </div>
 
-        <!-- powitanie -->
-        <div class="greeting-container">
-            <h1 id="greeting" class="greeting">Dzień dobry</h1>
-            <div id="privacy-quote" class="privacy-quote"></div>
-        </div>
+            <div class="greeting-container">
+                <h1 id="greeting" class="greeting">Dzień dobry</h1>
+                <div id="privacy-quote" class="privacy-quote"></div>
+            </div>
+        </section>
 
         <!-- wyszukiwarka -->
         <section class="search-section">
@@ -104,7 +105,7 @@
         <button id="settings-btn" class="icon-btn" aria-label="Ustawienia">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a2 2 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             </svg>
         </button>
     </footer>
@@ -113,6 +114,24 @@
     <div id="settings-modal" class="modal hidden">
         <div class="modal-content">
             <h2>Ustawienia</h2>
+
+            <div class="setting-group visibility-settings">
+                <label>Widoczność sekcji</label>
+                <div class="visibility-options">
+                    <label class="visibility-option" for="show-greeting">
+                        <input type="checkbox" id="show-greeting" checked>
+                        <span>Powitania (data, godzina, cytat)</span>
+                    </label>
+                    <label class="visibility-option" for="show-search">
+                        <input type="checkbox" id="show-search" checked>
+                        <span>Wyszukiwarka</span>
+                    </label>
+                    <label class="visibility-option" for="show-shortcuts">
+                        <input type="checkbox" id="show-shortcuts" checked>
+                        <span>Skróty</span>
+                    </label>
+                </div>
+            </div>
             
             <div class="setting-group">
                 <label for="bg-upload">Tło (obraz)</label>
