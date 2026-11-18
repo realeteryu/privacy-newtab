@@ -21,6 +21,61 @@ const eyeOpen = document.getElementById('eye-open');
 const eyeClosed = document.getElementById('eye-closed');
 const shortcutsGridEl = document.getElementById('shortcuts-grid');
 
+// ustawienia widoczności sekcji
+const sectionVisibilityKey = 'newtab_section_visibility';
+const sectionVisibilityControls = {
+    greeting: document.getElementById('show-greeting'),
+    search: document.getElementById('show-search'),
+    shortcuts: document.getElementById('show-shortcuts')
+};
+const sectionVisibilityElements = {
+    greeting: document.getElementById('greeting-section'),
+    search: document.querySelector('.search-section'),
+    shortcuts: document.getElementById('shortcuts-section')
+};
+
+function getSectionVisibility() {
+    const defaults = { greeting: true, search: true, shortcuts: true };
+
+    try {
+        const saved = JSON.parse(localStorage.getItem(sectionVisibilityKey));
+        if (!saved || typeof saved !== 'object') return defaults;
+
+        return {
+            greeting: typeof saved.greeting === 'boolean' ? saved.greeting : true,
+            search: typeof saved.search === 'boolean' ? saved.search : true,
+            shortcuts: typeof saved.shortcuts === 'boolean' ? saved.shortcuts : true
+        };
+    } catch (err) {
+        console.warn('Nie udało się odczytać ustawień widoczności sekcji:', err);
+        return defaults;
+    }
+}
+
+function applySectionVisibility(visibility = getSectionVisibility()) {
+    Object.entries(sectionVisibilityElements).forEach(([section, element]) => {
+        if (element) {
+            element.classList.toggle('section-hidden', !visibility[section]);
+        }
+
+        const control = sectionVisibilityControls[section];
+        if (control) {
+            control.checked = visibility[section];
+        }
+    });
+}
+
+function saveSectionVisibility() {
+    const visibility = {
+        greeting: sectionVisibilityControls.greeting.checked,
+        search: sectionVisibilityControls.search.checked,
+        shortcuts: sectionVisibilityControls.shortcuts.checked
+    };
+
+    localStorage.setItem(sectionVisibilityKey, JSON.stringify(visibility));
+    applySectionVisibility(visibility);
+}
+
 // inicjalizacja bazy danych, ładowanie tła, kafelków i wyszukiwarek przy starcie
 initDB().then(() => {
     loadBackground(); // z background.js
@@ -28,6 +83,12 @@ initDB().then(() => {
     renderEngineOptions(); // z engines.js
 }).catch((err) => {
     console.error('Nie udało się zainicjalizować bazy danych:', err);
+});
+
+// inicjalizacja widoczności sekcji (domyślnie wszystkie są widoczne)
+applySectionVisibility();
+Object.values(sectionVisibilityControls).forEach((control) => {
+    control.addEventListener('change', saveSectionVisibility);
 });
 
 function updateClock() {
