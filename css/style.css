@@ -39,7 +39,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     transition: background-image 0.5s ease;
-    filter: brightness(0.85); 
+    filter: brightness(0.85);
 }
 
 /* gradient przyciemniający górę i dół */
@@ -65,7 +65,7 @@ body {
     padding: 20px;
     width: 100%;
     max-width: 700px;
-    margin-top: 15vh; 
+    margin-top: 15vh;
     animation: fadeIn 0.8s ease-out;
 }
 
@@ -83,8 +83,8 @@ body {
     font-size: clamp(3rem, 10vw, 5rem);
     font-weight: 600;
     letter-spacing: 2px;
-    text-shadow: 
-        0 2px 12px rgba(0, 0, 0, 0.9), 
+    text-shadow:
+        0 2px 12px rgba(0, 0, 0, 0.9),
         0 1px 3px rgba(0, 0, 0, 0.9);
     font-variant-numeric: tabular-nums;
 }
@@ -281,7 +281,7 @@ body {
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     text-decoration: none;
     color: var(--text-primary);
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .shortcut-item:hover {
@@ -297,12 +297,12 @@ body {
     right: -4px;
     width: 22px;
     height: 22px;
-    background: rgba(0, 0, 0, 0.75); 
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    color: var(--text-secondary); 
+    color: var(--text-secondary);
     font-size: 14px;
     line-height: 1;
     display: flex;
@@ -321,7 +321,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 44px; /* obszar klikalny (zgodny z wytycznymi Apple) */
+    width: 44px;
     height: 44px;
     border-radius: 50%;
 }
@@ -408,7 +408,7 @@ body {
     right: 20px;
     z-index: 10;
     display: flex;
-    gap: 10px; /* odstęp między przyciskami */
+    gap: 10px;
 }
 
 /* uniwersalny styl dla przycisków w stopce */
@@ -442,7 +442,7 @@ body {
 .privacy-mode-active .shortcut-wrapper {
     filter: blur(8px);
     opacity: 0.7;
-    pointer-events: none; /* blokuje klikanie w rozmyte kafelki */
+    pointer-events: none;
     transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
@@ -473,8 +473,8 @@ body {
     max-width: 400px;
     border: 1px solid var(--search-border);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    max-height: 90vh; 
-    overflow-y: auto; 
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal-content h2 {
@@ -625,11 +625,13 @@ body {
     .container {
         margin-top: 10vh;
     }
+
     .search-wrapper {
         flex-direction: column;
         border-radius: 16px;
         padding: 10px;
     }
+
     .engine-select {
         border-right: none;
         border-bottom: 1px solid var(--search-border);
@@ -638,11 +640,56 @@ body {
         width: 100%;
         padding-bottom: 5px;
     }
+
     .search-form {
         width: 100%;
     }
+
     .footer {
         bottom: 10px;
         right: 10px;
     }
+}
+
+/* widoczność sekcji strony */
+.section-hidden {
+    display: none !important;
+}
+
+.greeting-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* przełączniki widoczności sekcji w ustawieniach */
+.visibility-settings {
+    margin-top: 5px;
+}
+
+.visibility-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.visibility-option {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    margin: 0 !important;
+    color: var(--text-primary) !important;
+    font-size: 0.95rem !important;
+    cursor: pointer;
+}
+
+.visibility-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--accent);
+    flex: 0 0 auto;
+    cursor: pointer;
 }
