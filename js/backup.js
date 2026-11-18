@@ -17,16 +17,20 @@ async function exportSettings() {
     const customEngines = getCustomEngines();
     const shortcuts = await getShortcuts();
     const bgBlob = await getFromDB('background');
+    const sectionVisibility = typeof getSectionVisibility === 'function'
+        ? getSectionVisibility()
+        : { greeting: true, search: true, shortcuts: true };
 
     // budowanie wersjonowanej koperty
     const envelope = {
         app: 'privacy-newtab',
-        version: '1.1.0',
+        version: '1.2.0',
         exportedAt: new Date().toISOString(),
         data: {
             engine,
             customEngines,
             background: bgBlob ? await blobToBase64(bgBlob) : null,
+            sectionVisibility,
             shortcuts: []
         }
     };
@@ -60,7 +64,7 @@ async function importSettings(file) {
         throw new Error('Nieprawidłowy plik kopii zapasowej.');
     }
 
-    const { engine, customEngines, background, shortcuts } = parsed.data;
+    const { engine, customEngines, background, shortcuts, sectionVisibility } = parsed.data;
 
     // nadpisywanie własnych wyszukiwarek (z walidacją bezpieczeństwa)
     const safeCustomEngines = {};
@@ -104,6 +108,17 @@ async function importSettings(file) {
         }
     }
     await saveShortcuts(restored);
+
+    // przywracanie widoczności sekcji (starsze kopie bez tego pola nie zmieniają obecnych ustawień)
+    if (sectionVisibility && typeof applySectionVisibility === 'function') {
+        const safeVisibility = {
+            greeting: typeof sectionVisibility.greeting === 'boolean' ? sectionVisibility.greeting : true,
+            search: typeof sectionVisibility.search === 'boolean' ? sectionVisibility.search : true,
+            shortcuts: typeof sectionVisibility.shortcuts === 'boolean' ? sectionVisibility.shortcuts : true
+        };
+        localStorage.setItem('newtab_section_visibility', JSON.stringify(safeVisibility));
+        applySectionVisibility(safeVisibility);
+    }
 
     // odświeżenie interfejsu
     if (typeof loadBackground === 'function') await loadBackground();
