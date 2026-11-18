@@ -7,7 +7,6 @@
     <title>Privacy NewTab – Prywatna Nowa Karta</title>
     <meta name="description" content="Minimalistyczna, w 100% prywatna nowa karta i strona startowa. Zero logów, zero analityki, zero backendu. Działa w 100% lokalnie (Local-First).">
 
-    <!-- og image i social media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://newtab.eteryu.space/">
     <meta property="og:title" content="Privacy NewTab – Prywatna Nowa Karta">
@@ -19,17 +18,14 @@
     <meta name="twitter:description" content="Minimalistyczna, w 100% prywatna nowa karta i strona startowa. Zero logów i śledzenia.">
     <meta name="twitter:image" content="https://newtab.eteryu.space/assets/og-image.png">
     
-    <!-- favicony -->
     <link rel="icon" href="assets/favicon.ico" sizes="32x32">
     <link rel="icon" href="assets/favicon-96x96.png" type="image/png" sizes="96x96">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
     
-    <!-- manifest pwa -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0d1117">
 
-    <!-- style -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -53,7 +49,6 @@
         <section class="search-section">
             <div class="search-wrapper">
                 <select id="engine-select" class="engine-select" aria-label="Wybierz wyszukiwarkę">
-                    <!-- opcje generowane przez js/engines.js -->
                 </select>
                 <form id="search-form" class="search-form" role="search">
                     <input 
@@ -77,7 +72,6 @@
         <!-- kafelki -->
         <section id="shortcuts-section" class="shortcuts-section">
             <div id="shortcuts-grid" class="shortcuts-grid">
-                <!-- generowane przez js -->
             </div>
             <button id="add-shortcut-btn" class="add-shortcut-btn" aria-label="Dodaj skrót">
                 <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -91,12 +85,10 @@
     <!-- stopka / ustawienia -->
     <footer class="footer">
         <button id="privacy-mode-btn" class="icon-btn" aria-label="Tryb prywatny" title="Ukryj kafelki">
-            <!-- ikona oka (domyślna) -->
             <svg id="eye-open" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
             </svg>
-            <!-- ikona przekreślonego oka (ukryta domyślnie) -->
             <svg id="eye-closed" class="hidden" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
                 <line x1="1" y1="1" x2="23" y2="23"></line>
@@ -105,7 +97,7 @@
         <button id="settings-btn" class="icon-btn" aria-label="Ustawienia">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a2 2 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             </svg>
         </button>
     </footer>
@@ -116,20 +108,45 @@
             <h2>Ustawienia</h2>
 
             <div class="setting-group visibility-settings">
-                <label>Widoczność sekcji</label>
+                <label>Widoczność i kolejność sekcji</label>
                 <div class="visibility-options">
-                    <label class="visibility-option" for="show-greeting">
-                        <input type="checkbox" id="show-greeting" checked>
-                        <span>Powitania (data, godzina, cytat)</span>
-                    </label>
-                    <label class="visibility-option" for="show-search">
-                        <input type="checkbox" id="show-search" checked>
-                        <span>Wyszukiwarka</span>
-                    </label>
-                    <label class="visibility-option" for="show-shortcuts">
-                        <input type="checkbox" id="show-shortcuts" checked>
-                        <span>Skróty</span>
-                    </label>
+
+                    <div class="visibility-option">
+                        <label class="visibility-label" for="show-greeting">
+                            <input type="checkbox" id="show-greeting" checked>
+                            <span>Powitania (data, godzina, cytat)</span>
+                        </label>
+                        <select id="order-greeting" class="section-order-select" aria-label="Kolejność powitań">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+
+                    <div class="visibility-option">
+                        <label class="visibility-label" for="show-search">
+                            <input type="checkbox" id="show-search" checked>
+                            <span>Wyszukiwarka</span>
+                        </label>
+                        <select id="order-search" class="section-order-select" aria-label="Kolejność wyszukiwarki">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+
+                    <div class="visibility-option">
+                        <label class="visibility-label" for="show-shortcuts">
+                            <input type="checkbox" id="show-shortcuts" checked>
+                            <span>Skróty</span>
+                        </label>
+                        <select id="order-shortcuts" class="section-order-select" aria-label="Kolejność skrótów">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+
                 </div>
             </div>
             
@@ -141,12 +158,9 @@
 
             <div class="setting-group">
                 <label for="engine-select-modal">Domyślna wyszukiwarka</label>
-                <select id="engine-select-modal">
-                    <!-- opcje generowane przez js/engines.js -->
-                </select>
+                <select id="engine-select-modal"></select>
             </div>
 
-            <!-- sekcja własnych wyszukiwarek -->
             <div class="setting-group backup-section">
                 <label>Dodaj własną wyszukiwarkę</label>
                 <input type="text" id="custom-engine-name" placeholder="Nazwa (np. Moja SearXNG)">
@@ -155,7 +169,6 @@
                 <div id="custom-engines-list" class="custom-engines-list"></div>
             </div>
 
-            <!-- sekcja kopii zapasowej -->
             <div class="setting-group backup-section">
                 <label>Kopia zapasowa ustawień</label>
                 <button id="export-settings-btn" class="btn-secondary">Eksportuj do pliku (JSON)</button>
@@ -192,14 +205,16 @@
         </div>
     </div>
 
-    <!-- skrypty -->
+     <!-- skrypty -->
     <script src="js/data.js"></script>
     <script src="js/db.js"></script>
     <script src="js/engines.js"></script>
     <script src="js/background.js"></script>
     <script src="js/shortcuts.js"></script>
+
     <!-- script.js musi być na końcu, bo wywołuje funkcje z powyższych plików -->
     <script src="js/script.js"></script>
+
     <!-- backup.js na samym końcu, bo korzysta ze wszystkich modułów -->
     <script src="js/backup.js"></script>
 </body>
