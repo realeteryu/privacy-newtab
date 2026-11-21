@@ -7,7 +7,6 @@
     --search-border: rgba(255, 255, 255, 0.2);
     --modal-bg: #161b22;
     --transition: 0.3s ease;
-    /* ciemny motyw dla elementów systemowych */
     color-scheme: dark;
 }
 
@@ -29,25 +28,27 @@ body {
     background-color: var(--bg-color);
 }
 
-/* nakładka gradientowa dla czytelności */
 #background {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: -1;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     transition: background-image 0.5s ease;
-    filter: brightness(0.85); 
+    filter: brightness(0.85);
 }
 
-/* gradient przyciemniający górę i dół */
 #background::after {
     content: '';
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(
         to bottom,
         rgba(0, 0, 0, 0.65) 0%,
@@ -65,26 +66,31 @@ body {
     padding: 20px;
     width: 100%;
     max-width: 700px;
-    margin-top: 15vh; 
+    margin-top: 15vh;
     animation: fadeIn 0.8s ease-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .clock-section {
     margin-bottom: 5px;
 }
 
-/* cień i stała szerokość cyfr dla zegara */
 .clock {
     font-size: clamp(3rem, 10vw, 5rem);
     font-weight: 600;
     letter-spacing: 2px;
-    text-shadow: 
-        0 2px 12px rgba(0, 0, 0, 0.9), 
+    text-shadow:
+        0 2px 12px rgba(0, 0, 0, 0.9),
         0 1px 3px rgba(0, 0, 0, 0.9);
     font-variant-numeric: tabular-nums;
 }
@@ -129,7 +135,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* tło paska wyszukiwania */
 .search-wrapper {
     display: flex;
     align-items: center;
@@ -210,7 +215,6 @@ body {
     color: var(--accent);
 }
 
-/* kafelki */
 .shortcuts-section {
     width: 100%;
     display: flex;
@@ -228,7 +232,6 @@ body {
     max-width: 600px;
 }
 
-/* komunikat pustej listy kafelków */
 .empty-state {
     width: 100%;
     display: flex;
@@ -258,7 +261,6 @@ body {
     margin: 0 2px;
 }
 
-/* wrapper zapobiegający ucinaniu przycisku x */
 .shortcut-wrapper {
     position: relative;
     width: 75px;
@@ -281,7 +283,7 @@ body {
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     text-decoration: none;
     color: var(--text-primary);
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .shortcut-item:hover {
@@ -290,19 +292,18 @@ body {
     box-shadow: 0 5px 15px rgba(245, 0, 86, 0.2);
 }
 
-/* przycisk x do usuwania (wizualnie mały, klikalnie duży) */
 .delete-shortcut-btn {
     position: absolute;
     top: -4px;
     right: -4px;
     width: 22px;
     height: 22px;
-    background: rgba(0, 0, 0, 0.75); 
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    color: var(--text-secondary); 
+    color: var(--text-secondary);
     font-size: 14px;
     line-height: 1;
     display: flex;
@@ -314,7 +315,6 @@ body {
     z-index: 2;
 }
 
-/* niewidzialny obszar wokół przycisku, który ułatwia klikanie na telefonie */
 .delete-shortcut-btn::after {
     content: '';
     position: absolute;
@@ -326,19 +326,16 @@ body {
     border-radius: 50%;
 }
 
-/* pokazuje x na desktopie po najechaniu na wrapper */
 .shortcut-wrapper:hover .delete-shortcut-btn {
     opacity: 1;
 }
 
-/* na dotykowych x jest zawsze widoczny */
 @media (hover: none) {
     .delete-shortcut-btn {
         opacity: 1;
     }
 }
 
-/* efekt akcji: róż i powiększenie */
 .delete-shortcut-btn:hover,
 .delete-shortcut-btn:focus-visible {
     background: var(--accent);
@@ -403,7 +400,6 @@ body {
     transform: scale(1.05);
 }
 
-/* stopka z przyciskami */
 .footer {
     position: fixed;
     bottom: 20px;
@@ -413,7 +409,6 @@ body {
     gap: 10px;
 }
 
-/* uniwersalny styl dla przycisków w stopce */
 .icon-btn {
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid var(--search-border);
@@ -435,12 +430,18 @@ body {
     background: rgba(0, 0, 0, 0.7);
 }
 
-/* ukrywanie elementów svg */
+.icon-btn svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    overflow: visible;
+}
+
 .icon-btn .hidden {
     display: none;
 }
 
-/* efekt rozmycia kafelków w trybie prywatnym */
 .privacy-mode-active .shortcut-wrapper {
     filter: blur(8px);
     opacity: 0.7;
@@ -450,8 +451,10 @@ body {
 
 .modal {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
@@ -466,7 +469,6 @@ body {
     opacity: 0;
 }
 
-/* max-height i scroll dla modala */
 .modal-content {
     background: var(--modal-bg);
     padding: 30px;
@@ -550,19 +552,18 @@ body {
     color-scheme: dark;
 }
 
-/* sekcje w ustawieniach (kopia, wyszukiwarki) */
 .backup-section {
     margin-top: 30px;
     border-top: 1px solid var(--search-border);
     padding-top: 20px;
 }
 
-/* ukryty input pliku */
 .hidden-input {
     display: none;
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
     padding: 10px 20px;
     border-radius: 8px;
     border: none;
@@ -584,16 +585,15 @@ body {
     color: var(--text-secondary);
 }
 
-/* odstępy przycisków w modalu */
 .modal .btn-secondary {
     margin-top: 10px;
 }
 
-.btn-primary:hover, .btn-secondary:hover {
+.btn-primary:hover,
+.btn-secondary:hover {
     opacity: 0.8;
 }
 
-/* własne wyszukiwarki */
 #custom-engine-name {
     margin-bottom: 5px;
 }
@@ -665,12 +665,10 @@ body {
     }
 }
 
-/* widoczność sekcji strony */
 .section-hidden {
     display: none !important;
 }
 
-/* układ sekcji powitania */
 .greeting-section {
     display: flex;
     flex-direction: column;
@@ -678,7 +676,6 @@ body {
     width: 100%;
 }
 
-/* ustawienia widoczności i kolejności sekcji */
 .visibility-settings {
     margin-top: 5px;
 }
@@ -737,8 +734,8 @@ body {
     outline-offset: 2px;
 }
 
+/* Wielosekcyjne menu ustawień */
 
-/* --- nowe, wielosekcyjne menu ustawień --- */
 .settings-content {
     max-width: 460px;
     padding: 24px;
@@ -765,11 +762,19 @@ body {
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.04);
     color: var(--text-primary);
-    display: inline-grid;
-    place-items: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0;
     cursor: pointer;
     transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.settings-back svg {
+    display: block;
+    width: 19px;
+    height: 19px;
+    flex: 0 0 19px;
 }
 
 .settings-back:hover,
@@ -818,7 +823,9 @@ body {
     outline: none;
 }
 
-.settings-menu-item:active { transform: scale(0.99); }
+.settings-menu-item:active {
+    transform: scale(0.99);
+}
 
 .settings-menu-item > span:nth-child(2) {
     display: flex;
@@ -828,21 +835,60 @@ body {
     min-width: 0;
 }
 
-.settings-menu-item strong { font-size: 0.94rem; font-weight: 600; }
-.settings-menu-item small { color: var(--text-secondary); font-size: 0.76rem; line-height: 1.35; }
+.settings-menu-item strong {
+    font-size: 0.94rem;
+    font-weight: 600;
+}
+
+.settings-menu-item small {
+    color: var(--text-secondary);
+    font-size: 0.76rem;
+    line-height: 1.35;
+}
+
+/* Jednolite pozycjonowanie ikon kategorii */
+
 .settings-menu-icon {
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 36px;
     height: 36px;
     flex: 0 0 36px;
+    padding: 0;
     border-radius: 10px;
     background: rgba(245, 0, 86, 0.12);
     color: var(--accent);
-    font-size: 1.25rem;
 }
-.settings-chevron { color: var(--text-secondary); font-size: 1.5rem; }
-.settings-view.hidden { display: none; }
+
+.settings-menu-icon svg {
+    display: block;
+    width: 19px;
+    height: 19px;
+    flex: 0 0 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    overflow: visible;
+}
+
+.settings-chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 24px;
+    flex: 0 0 18px;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.settings-view.hidden {
+    display: none;
+}
 
 .settings-info-card {
     padding: 22px 16px;
@@ -866,8 +912,19 @@ body {
     font-weight: 700;
 }
 
-.settings-info-card h3 { margin-bottom: 10px; font-size: 1.1rem; font-weight: 600; }
-.settings-info-card p { margin-bottom: 16px; color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; }
+.settings-info-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.settings-info-card p {
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
 .settings-link {
     display: block;
     padding: 10px 0;
@@ -876,26 +933,64 @@ body {
     font-size: 0.9rem;
     text-decoration: none;
 }
-.settings-link:hover { color: var(--accent); }
+
+.settings-link:hover {
+    color: var(--accent);
+}
+
+/* Ko-fi – ciemnozielona pigułka */
 
 .support-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 7px;
     min-height: 42px;
     padding: 9px 20px;
-    border: 1px solid rgba(24, 120, 59, 0.2);
+    border: 1px solid rgba(0, 200, 120, 0.2);
     border-radius: 999px;
-    background: #dff5e5;
-    color: #18783b;
+    background: #062b1c;
+    color: #00c878;
     font-size: 0.92rem;
     font-weight: 650;
+    line-height: 1;
     text-decoration: none;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        transform 0.2s ease,
+        opacity 0.2s ease;
 }
-.support-badge:hover { transform: translateY(-1px); opacity: 0.9; }
+
+.support-badge svg {
+    display: block;
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+    fill: currentColor;
+    stroke: none;
+}
+
+.support-badge:hover {
+    background: #093b28;
+    border-color: rgba(0, 200, 120, 0.4);
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+.support-badge:focus-visible {
+    outline: 2px solid #00c878;
+    outline-offset: 3px;
+}
 
 @media (max-width: 500px) {
-    .settings-content { width: calc(100% - 24px); padding: 20px 16px; max-height: 88vh; }
-    .settings-menu-item { padding: 12px 10px; }
+    .settings-content {
+        width: calc(100% - 24px);
+        padding: 20px 16px;
+        max-height: 88vh;
+    }
+
+    .settings-menu-item {
+        padding: 12px 10px;
+    }
 }
