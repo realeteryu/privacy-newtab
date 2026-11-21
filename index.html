@@ -97,86 +97,124 @@
         <button id="settings-btn" class="icon-btn" aria-label="Ustawienia">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             </svg>
         </button>
     </footer>
 
-    <!-- modal ustawień -->
+    <!-- wielosekcyjne menu ustawień -->
     <div id="settings-modal" class="modal hidden">
-        <div class="modal-content">
-            <h2>Ustawienia</h2>
+        <div class="modal-content settings-content" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+            <div class="settings-heading">
+                <button id="settings-back" class="settings-back hidden" type="button" aria-label="Wróć do ustawień">←</button>
+                <h2 id="settings-title">Ustawienia</h2>
+                <button id="close-settings" class="settings-close" type="button" aria-label="Zamknij ustawienia">×</button>
+            </div>
 
-            <div class="setting-group visibility-settings">
-                <label>Widoczność i kolejność sekcji</label>
-                <div class="visibility-options">
+            <div id="settings-home" class="settings-view">
+                <p class="settings-intro">Dostosuj działanie i wygląd swojej nowej karty.</p>
+                <nav class="settings-menu" aria-label="Kategorie ustawień">
+                    <button class="settings-menu-item" type="button" data-settings-view="appearance"><span class="settings-menu-icon">◐</span><span><strong>Wygląd</strong><small>Tło, widoczność i kolejność sekcji</small></span><span class="settings-chevron">›</span></button>
+                    <button class="settings-menu-item" type="button" data-settings-view="search"><span class="settings-menu-icon">⌕</span><span><strong>Wyszukiwanie</strong><small>Domyślna i własne wyszukiwarki</small></span><span class="settings-chevron">›</span></button>
+                    <button class="settings-menu-item" type="button" data-settings-view="data"><span class="settings-menu-icon">↕</span><span><strong>Dane i kopie zapasowe</strong><small>Eksportuj lub importuj ustawienia</small></span><span class="settings-chevron">›</span></button>
+                    <button class="settings-menu-item" type="button" data-settings-view="about"><span class="settings-menu-icon">ⓘ</span><span><strong>O projekcie</strong><small>Informacje i kod źródłowy</small></span><span class="settings-chevron">›</span></button>
+                    <button class="settings-menu-item" type="button" data-settings-view="support"><span class="settings-menu-icon">♡</span><span><strong>Wesprzyj projekt</strong><small>Pomóż rozwijać Privacy NewTab</small></span><span class="settings-chevron">›</span></button>
+                </nav>
+            </div>
 
-                    <div class="visibility-option">
-                        <label class="visibility-label" for="show-greeting">
-                            <input type="checkbox" id="show-greeting" checked>
-                            <span>Powitania (data, godzina, cytat)</span>
-                        </label>
-                        <select id="order-greeting" class="section-order-select" aria-label="Kolejność powitań">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+            <section class="settings-view hidden" data-settings-panel="appearance">
+                <p class="settings-intro">Dostosuj stronę startową do swoich potrzeb.</p>
+                <div class="setting-group visibility-settings">
+                    <label>Widoczność i kolejność sekcji</label>
+                    <div class="visibility-options">
+                        <div class="visibility-option">
+                            <label class="visibility-label" for="show-greeting">
+                                <input type="checkbox" id="show-greeting" checked>
+                                <span>Powitania (data, godzina, cytat)</span>
+                            </label>
+                            <select id="order-greeting" class="section-order-select" aria-label="Kolejność powitań">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+
+                        <div class="visibility-option">
+                            <label class="visibility-label" for="show-search">
+                                <input type="checkbox" id="show-search" checked>
+                                <span>Wyszukiwarka</span>
+                            </label>
+                            <select id="order-search" class="section-order-select" aria-label="Kolejność wyszukiwarki">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+
+                        <div class="visibility-option">
+                            <label class="visibility-label" for="show-shortcuts">
+                                <input type="checkbox" id="show-shortcuts" checked>
+                                <span>Skróty</span>
+                            </label>
+                            <select id="order-shortcuts" class="section-order-select" aria-label="Kolejność skrótów">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
                     </div>
-
-                    <div class="visibility-option">
-                        <label class="visibility-label" for="show-search">
-                            <input type="checkbox" id="show-search" checked>
-                            <span>Wyszukiwarka</span>
-                        </label>
-                        <select id="order-search" class="section-order-select" aria-label="Kolejność wyszukiwarki">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </div>
-
-                    <div class="visibility-option">
-                        <label class="visibility-label" for="show-shortcuts">
-                            <input type="checkbox" id="show-shortcuts" checked>
-                            <span>Skróty</span>
-                        </label>
-                        <select id="order-shortcuts" class="section-order-select" aria-label="Kolejność skrótów">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </div>
-
                 </div>
-            </div>
-            
-            <div class="setting-group">
-                <label for="bg-upload">Tło (obraz)</label>
-                <input type="file" id="bg-upload" accept="image/*">
-                <button id="bg-reset" class="btn-secondary">Przywróć domyślne</button>
-            </div>
 
-            <div class="setting-group">
-                <label for="engine-select-modal">Domyślna wyszukiwarka</label>
-                <select id="engine-select-modal"></select>
-            </div>
+                <div class="setting-group">
+                    <label for="bg-upload">Tło (obraz)</label>
+                    <input type="file" id="bg-upload" accept="image/*">
+                    <button id="bg-reset" class="btn-secondary">Przywróć domyślne</button>
+                </div>
+            </section>
 
-            <div class="setting-group backup-section">
-                <label>Dodaj własną wyszukiwarkę</label>
-                <input type="text" id="custom-engine-name" placeholder="Nazwa (np. Moja SearXNG)">
-                <input type="text" id="custom-engine-url" placeholder="URL z %s (np. https://.../search?q=%s)">
-                <button id="add-engine-btn" class="btn-secondary">Dodaj wyszukiwarkę</button>
-                <div id="custom-engines-list" class="custom-engines-list"></div>
-            </div>
+            <section class="settings-view hidden" data-settings-panel="search">
+                <p class="settings-intro">Wybierz wyszukiwarkę i zarządzaj własnymi usługami.</p>
+                <div class="setting-group">
+                    <label for="engine-select-modal">Domyślna wyszukiwarka</label>
+                    <select id="engine-select-modal"></select>
+                </div>
+                <div class="setting-group backup-section">
+                    <label>Dodaj własną wyszukiwarkę</label>
+                    <input type="text" id="custom-engine-name" placeholder="Nazwa (np. Moja SearXNG)">
+                    <input type="text" id="custom-engine-url" placeholder="URL z %s (np. https://.../search?q=%s)">
+                    <button id="add-engine-btn" class="btn-secondary">Dodaj wyszukiwarkę</button>
+                    <div id="custom-engines-list" class="custom-engines-list"></div>
+                </div>
+            </section>
 
-            <div class="setting-group backup-section">
-                <label>Kopia zapasowa ustawień</label>
-                <button id="export-settings-btn" class="btn-secondary">Eksportuj do pliku (JSON)</button>
-                <button id="import-settings-btn" class="btn-secondary">Importuj z pliku</button>
-                <input type="file" id="import-file-input" accept=".json" class="hidden-input">
-            </div>
+            <section class="settings-view hidden" data-settings-panel="data">
+                <p class="settings-intro">Kopia zapasowa pozwala przenieść ustawienia na inne urządzenie lub odtworzyć je później.</p>
+                <div class="setting-group backup-section">
+                    <label>Kopia zapasowa ustawień</label>
+                    <button id="export-settings-btn" class="btn-secondary">Eksportuj do pliku (JSON)</button>
+                    <button id="import-settings-btn" class="btn-secondary">Importuj z pliku</button>
+                    <input type="file" id="import-file-input" accept=".json" class="hidden-input">
+                </div>
+            </section>
 
-            <button id="close-settings" class="btn-primary">Zamknij</button>
+            <section class="settings-view hidden" data-settings-panel="about">
+                <div class="settings-info-card">
+                    <div class="settings-project-mark">P</div>
+                    <h3>Privacy NewTab</h3>
+                    <p>Minimalistyczna strona startowa zaprojektowana z myślą o prywatności. Ustawienia i dane użytkownika są przechowywane lokalnie w przeglądarce.</p>
+                    <a class="settings-link" href="https://github.com/realeteryu/privacy-newtab" target="_blank" rel="noopener noreferrer">Kod źródłowy na GitHubie ↗</a>
+                    <a class="settings-link" href="https://eteryu.space/" target="_blank" rel="noopener noreferrer">Eteryu.space ↗</a>
+                </div>
+            </section>
+
+            <section class="settings-view hidden" data-settings-panel="support">
+                <div class="settings-info-card">
+                    <div class="settings-project-mark support-mark">♡</div>
+                    <h3>Wesprzyj Privacy NewTab</h3>
+                    <p>Jeśli projekt jest dla Ciebie przydatny, możesz wesprzeć jego dalszy rozwój. Wsparcie jest dobrowolne — korzystanie z aplikacji nie wymaga wpłaty.</p>
+                    <a class="support-badge" href="https://ko-fi.com/eteryu" target="_blank" rel="noopener noreferrer">♥ Ko-fi</a>
+                </div>
+            </section>
         </div>
     </div>
 
@@ -205,7 +243,7 @@
         </div>
     </div>
 
-     <!-- skrypty -->
+    <!-- skrypty -->
     <script src="js/data.js"></script>
     <script src="js/db.js"></script>
     <script src="js/engines.js"></script>
