@@ -9,6 +9,11 @@ const engineSelectModal = document.getElementById('engine-select-modal');
 const settingsBtn = document.getElementById('settings-btn');
 const settingsModal = document.getElementById('settings-modal');
 const closeSettingsBtn = document.getElementById('close-settings');
+const settingsBackBtn = document.getElementById('settings-back');
+const settingsTitle = document.getElementById('settings-title');
+const settingsHome = document.getElementById('settings-home');
+const settingsPanels = document.querySelectorAll('[data-settings-panel]');
+const settingsMenuButtons = document.querySelectorAll('[data-settings-view]');
 
 // elementy do backupu
 const exportBtn = document.getElementById('export-settings-btn');
@@ -316,15 +321,48 @@ engineSelectModal.addEventListener('change', (e) => {
 
 // --- logika modala ustawień ---
 
+const settingsViewTitles = {
+    appearance: 'Wygląd',
+    search: 'Wyszukiwanie',
+    data: 'Dane i kopie zapasowe',
+    about: 'O projekcie',
+    support: 'Wesprzyj projekt'
+};
+
+function showSettingsHome() {
+    settingsHome.classList.remove('hidden');
+    settingsPanels.forEach(panel => panel.classList.add('hidden'));
+    settingsBackBtn.classList.add('hidden');
+    settingsTitle.textContent = 'Ustawienia';
+}
+
+function showSettingsView(viewName) {
+    const targetPanel = document.querySelector(`[data-settings-panel="${viewName}"]`);
+    if (!targetPanel) return;
+
+    settingsHome.classList.add('hidden');
+    settingsPanels.forEach(panel => panel.classList.toggle('hidden', panel !== targetPanel));
+    settingsBackBtn.classList.remove('hidden');
+    settingsTitle.textContent = settingsViewTitles[viewName] || 'Ustawienia';
+
+    if (viewName === 'search') renderCustomEnginesList();
+}
+
 function openSettings() {
-    renderCustomEnginesList();
+    showSettingsHome();
     settingsModal.classList.remove('hidden');
 }
 
 function closeSettings() {
     settingsModal.classList.add('hidden');
+    showSettingsHome();
 }
 
+settingsMenuButtons.forEach(button => {
+    button.addEventListener('click', () => showSettingsView(button.dataset.settingsView));
+});
+
+settingsBackBtn.addEventListener('click', showSettingsHome);
 settingsBtn.addEventListener('click', openSettings);
 closeSettingsBtn.addEventListener('click', closeSettings);
 
@@ -403,7 +441,11 @@ importFileInput.addEventListener('change', async (e) => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         if (!settingsModal.classList.contains('hidden')) {
-            closeSettings();
+            if (settingsBackBtn && !settingsBackBtn.classList.contains('hidden')) {
+                showSettingsHome();
+            } else {
+                closeSettings();
+            }
         }
 
         const shortcutModal = document.getElementById('shortcut-modal');
